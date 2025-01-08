@@ -21,9 +21,8 @@ bool initialize_window(void) {
 	}
 	SDL_DisplayMode display_mode;
 	SDL_GetCurrentDisplayMode(0, &display_mode);
-	window_width = 800; // display_mode.w;
-	window_height = 600; // display_mode.h;
-
+	window_width = display_mode.w;
+	window_height = display_mode.h;
 
 	window = SDL_CreateWindow(
 		NULL,
@@ -127,7 +126,7 @@ void render(void) {
 	SDL_RenderClear(renderer);
 
 	render_color_buffer();
-	clear_color_buffer(0xFFFFFF00);
+	clear_color_buffer(0xFF000000);
 
 	SDL_RenderPresent(renderer);
 }
