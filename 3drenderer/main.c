@@ -3,9 +3,9 @@
 #include <stdint.h>
 #include <SDL.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
 
+int window_width = 0;
+int window_height = 0;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -19,13 +19,18 @@ bool initialize_window(void) {
 		fprintf(stderr, "Error initializing window.\n");
 		return false;
 	}
+	SDL_DisplayMode display_mode;
+	SDL_GetCurrentDisplayMode(0, &display_mode);
+	window_width = 800; // display_mode.w;
+	window_height = 600; // display_mode.h;
+
 
 	window = SDL_CreateWindow(
 		NULL,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH,
-		WINDOW_HEIGHT,
+		window_width,
+		window_height,
 		SDL_WINDOW_BORDERLESS
 	);
 
@@ -41,11 +46,13 @@ bool initialize_window(void) {
 		return 1;
 	}
 
+	SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+
 	return true;
 }
 
 void setup(void) {
-	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * WINDOW_WIDTH * WINDOW_HEIGHT);
+	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
 
 	if (!color_buffer) {
 		fprintf(stderr, "Failed to allocate color buffer.\n");
@@ -55,8 +62,8 @@ void setup(void) {
 		renderer,
 		SDL_PIXELFORMAT_ARGB8888,
 		SDL_TEXTUREACCESS_STREAMING,
-		WINDOW_WIDTH,
-		WINDOW_HEIGHT
+		window_width,
+		window_height
 	);
 
 	if (!color_buffer_texture) {
@@ -98,8 +105,8 @@ void render_color_buffer(void){
 	SDL_UpdateTexture(
 		color_buffer_texture,
 		NULL,
-		color_buffer,
-		(int)(WINDOW_WIDTH * sizeof(uint32_t))
+		color_buffer, //Copy color_buffer to the texture. 
+		(int)(window_width * sizeof(uint32_t))
 	);
 	SDL_RenderCopy(renderer, color_buffer_texture, NULL, NULL);
 }
@@ -110,7 +117,7 @@ void update(void) {
 }
 
 void clear_color_buffer(uint32_t color) {
-	for(size_t i = 0; i < WINDOW_HEIGHT * WINDOW_WIDTH; i++) {
+	for(size_t i = 0; i < window_height * window_width; i++) {
 		color_buffer[i] = color;
 	}
 }
