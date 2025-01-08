@@ -3,10 +3,16 @@
 #include <stdint.h>
 #include <SDL.h>
 
+typedef struct rect {
+	int x;
+	int y;
+	int w;
+	int h;
+}rect_t;
 
 int window_width = 0;
 int window_height = 0;
-
+rect_t rect1 = { 0 };
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* color_buffer_texture = NULL;
@@ -99,6 +105,19 @@ void process_input(void) {
 
 }
 
+void draw_rect(rect_t rect, uint32_t color) {
+
+	int start = 0;
+
+	for (int j = 0; j <= rect.h; j++) {
+		start = window_width * (rect.y + j) + rect.x;
+
+		for (int i = 0; i < rect.w; i++) {
+			color_buffer[start + i] = color;
+		}
+	}
+}
+
 
 void render_color_buffer(void){
 	SDL_UpdateTexture(
@@ -121,9 +140,11 @@ void clear_color_buffer(uint32_t color) {
 	}
 }
 
-void render(void) {
+void render(rect_t rect) {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
+
+	draw_rect(rect,0xFFFFFFFF);
 
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
@@ -135,13 +156,15 @@ void render(void) {
 int main(int argc, char* argv[]) {
 
 	is_running = initialize_window();
+	int temp = 20;
+	rect_t rect1 = { .x = temp, .y = temp, .h = temp, .w = temp };
 
 	setup();
 
 	while (is_running) {
 		process_input();
 		update();
-		render();
+		render(rect1);
 	}
 	destroy_window();
 	return 0;
