@@ -105,15 +105,14 @@ void process_input(void) {
 
 }
 
+void draw_point(int x, int y, uint32_t color) {
+	color_buffer[(window_width * y) + x] = color;
+}
+
 void draw_rect(rect_t rect, uint32_t color) {
-
-	int start = 0;
-
 	for (int j = 0; j <= rect.h; j++) {
-		start = window_width * (rect.y + j) + rect.x;
-
-		for (int i = 0; i < rect.w; i++) {
-			color_buffer[start + i] = color;
+		for (int i =0; i < rect.w; i++) {
+			draw_point( rect.x + i , rect.y + j, color);
 		}
 	}
 }
