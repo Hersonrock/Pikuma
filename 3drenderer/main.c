@@ -94,7 +94,6 @@ void process_input(void) {
 }
 
 
-
 void render_color_buffer(void){
 	SDL_UpdateTexture(
 		color_buffer_texture,
@@ -121,7 +120,7 @@ void render(void) {
 	SDL_RenderClear(renderer);
 
 	render_color_buffer();
-	clear_color_buffer(0xFFFF00);
+	clear_color_buffer(0xFFFFFF00);
 
 	SDL_RenderPresent(renderer);
 }
