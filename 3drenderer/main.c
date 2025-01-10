@@ -1,4 +1,8 @@
 #include "display.h"
+#include "vector.h" 
+
+#define N_POINTS  9 * 9 * 9 
+vect3_t cube_points[N_POINTS];
 
 is_running = false;
 
@@ -28,6 +32,17 @@ void setup(void) {
 
 	if (!color_buffer_texture) {
 		fprintf(stderr, "Failed to create color buffer texture");
+	}
+
+	int point_count = 0;
+
+	for (float x = -1; x <= 1; x += 0.25f) {
+		for (float y = -1; y <= 1; y += 0.25f) {
+			for (float z = -1; z <= 1; z += 0.25f) {
+				vect3_t new_point = { x, y, z};
+				cube_points[point_count++] = new_point;
+			}
+		}
 	}
 }
 
@@ -59,7 +74,7 @@ void render(rect_t rect) {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	draw_rect(rect, 0xFFFFFFFF);
+	//draw_rect(rect, 0xFFFFFFFF);
 
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
