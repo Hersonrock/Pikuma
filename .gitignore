@@ -7,6 +7,7 @@
 #Extra
 SDL2/
 *.dll
+Playground/
 
 # User-specific files
 *.rsuser
