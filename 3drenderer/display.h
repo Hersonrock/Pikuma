@@ -25,7 +25,7 @@ extern rect_t rect1;
 
 bool initialize_window(void);
 
-void draw_point(int x, int y, uint32_t color);
+void draw_pixel(int x, int y, uint32_t color);
 void draw_rect(rect_t rect, uint32_t color);
 
 void render_color_buffer(void);

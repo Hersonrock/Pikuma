@@ -36,14 +36,14 @@ bool initialize_window(void) {
 	return true;
 }
 
-void draw_point(int x, int y, uint32_t color) {
+void draw_pixel(int x, int y, uint32_t color) {
 	color_buffer[(window_width * y) + x] = color;
 }
 
 void draw_rect(rect_t rect, uint32_t color) {
 	for (int j = 0; j <= rect.h; j++) {
 		for (int i = 0; i < rect.w; i++) {
-			draw_point(rect.x + i, rect.y + j, color);
+			draw_pixel(rect.x + i, rect.y + j, color);
 		}
 	}
 }
