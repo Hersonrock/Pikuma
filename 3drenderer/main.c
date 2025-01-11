@@ -74,7 +74,7 @@ void render(rect_t rect) {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	//draw_rect(rect, 0xFFFFFFFF);
+	draw_rect(rect, 0xFFFFFFFF);
 
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);

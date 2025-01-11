@@ -21,14 +21,14 @@ bool initialize_window(void) {
 
 	if (!window) {
 		fprintf(stderr, "Failed to create Window.\n");
-		return 1;
+		return false;
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	if (!renderer) {
 		fprintf(stderr, "Failed to create Renderer.\n");
-		return 1;
+		return false;
 	}
 
 	SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
