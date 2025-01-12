@@ -3,6 +3,7 @@
 
 #define N_POINTS  9 * 9 * 9 
 vect3_t cube_points[N_POINTS];
+vect2_t projected_points[N_POINTS];
 
 is_running = false;
 
@@ -66,15 +67,42 @@ void process_input(void) {
 	}
 }
 
-void update(void) {
+vect2_t project_point(vect3_t point) {
+	vect2_t projected_point = {
+		.x = point.x,
+		.y = point.y
+	};
 
+	return projected_point;
 }
+
+
+void update(void) {
+	for (int i = 0; i < N_POINTS; i++) {
+		vect3_t point = cube_points[i];
+
+		vect2_t projected_point = project_point(point);
+		projected_points[i] = projected_point;
+	}
+}
+
+
 
 void render(rect_t rect) {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	draw_rect(rect, 0xFFFFFFFF);
+
+	//draw_rect(rect, 0xFFFFFFFF);
+	for (int i = 0; i < N_POINTS; i++) {
+		rect_t rect = {
+			.x = projected_points[i].x,
+			.y = projected_points[i].y,
+			.h = 5,
+			.w = 5,
+		};
+		draw_rect(rect, 0xFFFFFFFF);
+	}
 
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
