@@ -83,7 +83,13 @@ void process_input(void) {
 		if (event.key.keysym.sym == SDLK_DOWN) {
 			cube_rotation.x -= 0.1f;
 		}
-		
+		if (event.key.keysym.sym == SDLK_KP_MULTIPLY) {
+			cube_rotation.z += 0.1f;
+		}
+		if (event.key.keysym.sym == SDLK_KP_DIVIDE) {
+			cube_rotation.z -= 0.1f;
+		}
+
 		break;
 
 	default:
@@ -107,8 +113,9 @@ void update(void) {
 		vect3_t point = cube_points[i];
 
 		vect3_t transformed_point = vec3_rotate_y(point, cube_rotation.y);
-		
-		//transformed_point = vec3_rotate_x(point, cube_rotation.x);
+		transformed_point = vec3_rotate_x(transformed_point, cube_rotation.x);
+		transformed_point = vec3_rotate_z(transformed_point, cube_rotation.z);
+
 
 		//Move points away from camera.
 		transformed_point.z -= camera_position.z;
