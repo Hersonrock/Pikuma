@@ -2,6 +2,10 @@
 #include "vector.h" 
 
 #define N_POINTS  9 * 9 * 9 
+#define FPS 30
+#define FRAME_TARGET_TIME (1000 / FPS)
+
+
 vect3_t cube_points[N_POINTS];
 vect2_t projected_points[N_POINTS];
 vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
@@ -11,6 +15,7 @@ vect3_t cube_rotation = { .x = 0, .y = 0, .z = 0 };
 float fov_factor = 320;
 
 is_running = false;
+uint32_t previous_frame_time = 0;
 
 int window_width = 0;
 int window_height = 0;
@@ -109,10 +114,14 @@ vect2_t project_point(vect3_t point) {
 
 void update(void) {
 
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), previous_frame_time + FRAME_TARGET_TIME ));
+	previous_frame_time = SDL_GetTicks();
+
 	for (int i = 0; i < N_POINTS; i++) {
 		vect3_t point = cube_points[i];
 
-		vect3_t transformed_point = vec3_rotate_y(point, cube_rotation.y);
+		vect3_t transformed_point;
+		transformed_point = vec3_rotate_y(point, cube_rotation.y);
 		transformed_point = vec3_rotate_x(transformed_point, cube_rotation.x);
 		transformed_point = vec3_rotate_z(transformed_point, cube_rotation.z);
 
@@ -127,7 +136,7 @@ void update(void) {
 
 
 
-void render(rect_t rect) {
+void render() {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
@@ -152,15 +161,13 @@ void render(rect_t rect) {
 int main(int argc, char* argv[]) {
 
 	is_running = initialize_window();
-	int temp = 20;
-	rect_t rect1 = { .x = temp, .y = temp, .h = temp, .w = temp };
 
 	setup();
 
 	while (is_running) {
 		process_input();
 		update();
-		render(rect1);
+		render();
 	}
 	destroy_window();
 	return 0;
