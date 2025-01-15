@@ -1,7 +1,6 @@
 #ifndef MESH
 #define MESH
 
-#include "vector.h"
 #include "triangle.h"
 #define N_MESH_VERTICES  8
 
