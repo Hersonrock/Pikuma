@@ -4,19 +4,17 @@
 
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
+uint32_t previous_frame_time = 0;
+
+
 
 triangle_t triangles_to_render[N_MESH_FACES];
-
-vect3_t cube_points[N_MESH_VERTICES];
-vect2_t projected_points[N_MESH_VERTICES];
 vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
-
 vect3_t cube_rotation = { .x = 0, .y = 0, .z = 0 };
-
 float fov_factor = 320;
 
-is_running = false;
-uint32_t previous_frame_time = 0;
+bool is_running = false;
+
 
 int window_width = 0;
 int window_height = 0;
