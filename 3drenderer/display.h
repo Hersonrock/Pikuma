@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include <SDL.h>
 
-
 typedef struct rect {
 	int x;
 	int y;
@@ -20,8 +19,6 @@ extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern SDL_Texture* color_buffer_texture;
 extern uint32_t* color_buffer;
-extern rect_t rect1;
-
 
 bool initialize_window(void);
 
