@@ -50,7 +50,6 @@ void draw_rect(rect_t rect, uint32_t color) {
 	}
 }
 
-
 void render_color_buffer(void) {
 	SDL_UpdateTexture(
 		color_buffer_texture,

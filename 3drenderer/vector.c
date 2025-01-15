@@ -1,8 +1,6 @@
 #include "vector.h"
 #include <math.h>
 
-// TODO: Add vector functions implementations.
-
 vect3_t vec3_rotate_x(vect3_t v, float angle){
 	vect3_t rotated_vector = {
 		.x = v.x,
