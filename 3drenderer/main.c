@@ -1,9 +1,22 @@
 #include "display.h"
 #include "vector.h" 
 
-#define N_POINTS  9 * 9 * 9 
+//#define N_POINTS  9 * 9 * 9 
+#define N_POINTS  8
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
+
+// Array if Vertices
+vect3_t cube_vertices[8] = {
+	{.x =  1, .y =  1, .z =  1},
+	{.x = -1, .y =  1, .z =  1},
+	{.x = -1, .y =  1, .z = -1},
+	{.x =  1, .y =  1, .z = -1},
+	{.x =  1, .y = -1, .z =  1},
+	{.x = -1, .y = -1, .z =  1},
+	{.x = -1, .y = -1, .z = -1},
+	{.x =  1, .y = -1, .z = -1},
+};
 
 
 vect3_t cube_points[N_POINTS];
@@ -47,14 +60,14 @@ void setup(void) {
 
 	int point_count = 0;
 
-	for (float x = -1; x <= 1; x += 0.25f) {
-		for (float y = -1; y <= 1; y += 0.25f) {
-			for (float z = -1; z <= 1; z += 0.25f) {
-				vect3_t new_point = { x, y, z};
-				cube_points[point_count++] = new_point;
-			}
-		}
-	}
+	//for (float x = -1; x <= 1; x += 0.25f) {
+	//	for (float y = -1; y <= 1; y += 0.25f) {
+	//		for (float z = -1; z <= 1; z += 0.25f) {
+	//			vect3_t new_point = { x, y, z};
+	//			cube_points[point_count++] = new_point;
+	//		}
+	//	}
+	//}
 }
 
 void process_input(void) {
@@ -124,7 +137,8 @@ void update(void) {
 	previous_frame_time = SDL_GetTicks();
 
 	for (int i = 0; i < N_POINTS; i++) {
-		vect3_t point = cube_points[i];
+		//vect3_t point = cube_points[i];
+		vect3_t point = cube_vertices[i];
 
 		vect3_t transformed_point;
 		transformed_point = vec3_rotate_y(point, cube_rotation.y);
