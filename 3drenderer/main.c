@@ -2,7 +2,7 @@
 #include "vector.h" 
 
 #define N_POINTS  9 * 9 * 9 
-#define FPS 30
+#define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
 
 
@@ -114,7 +114,13 @@ vect2_t project_point(vect3_t point) {
 
 void update(void) {
 
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), previous_frame_time + FRAME_TARGET_TIME ));
+	uint32_t time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - previous_frame_time);
+
+	if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
+		SDL_Delay(time_to_wait);
+	}
+
+
 	previous_frame_time = SDL_GetTicks();
 
 	for (int i = 0; i < N_POINTS; i++) {
