@@ -2,9 +2,10 @@
 #define TRIANGLE
 
 #include "vector.h"
+#include <stdint.h>
 
 typedef struct {
-	int a, b, c;
+	uint32_t a, b, c;
 }face_t;
 
 typedef  struct {

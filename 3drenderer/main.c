@@ -4,20 +4,17 @@
 
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
+
+bool is_running = false;
 uint32_t previous_frame_time = 0;
-
-
 
 triangle_t triangles_to_render[N_MESH_FACES];
 vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
 vect3_t cube_rotation = { .x = 0, .y = 0, .z = 0 };
 float fov_factor = 320;
 
-bool is_running = false;
-
-
-int window_width = 0;
-int window_height = 0;
+uint32_t window_width = 0;
+uint32_t window_height = 0;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -99,7 +96,6 @@ vect2_t project_point(vect3_t point) {
 	return projected_point;
 }
 
-
 void update(void) {
 
 	uint32_t time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - previous_frame_time);
@@ -110,7 +106,7 @@ void update(void) {
 
 	previous_frame_time = SDL_GetTicks();
 
-	for (int i = 0; i < N_MESH_FACES; i++) {
+	for (size_t i = 0; i < N_MESH_FACES; i++) {
 
 		face_t mesh_face = mesh_faces[i];
 

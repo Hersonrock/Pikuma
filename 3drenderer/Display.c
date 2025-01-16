@@ -36,15 +36,15 @@ bool initialize_window(void) {
 	return true;
 }
 
-void draw_pixel(unsigned int x, unsigned int y, uint32_t color) {
+void draw_pixel(uint32_t x, uint32_t y, uint32_t color) {
 	if (x < window_width && y < window_height){
 		color_buffer[(window_width * y) + x] = color;
 	}
 }
 
 void draw_rect(rect_t rect, uint32_t color) {
-	for (int j = 0; j <= rect.h; j++) {
-		for (int i = 0; i < rect.w; i++) {
+	for (size_t j = 0; j <= rect.h; j++) {
+		for (size_t i = 0; i < rect.w; i++) {
 			draw_pixel(rect.x + i, rect.y + j, color);
 		}
 	}
