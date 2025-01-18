@@ -2,24 +2,31 @@
 #include "vector.h" 
 #include "mesh.h"
 
+/// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
-
-bool is_running = false;
 uint32_t previous_frame_time = 0;
+/// 
 
-triangle_t triangles_to_render[N_MESH_FACES];
+/// GAME LOOP
+bool is_running = false;
+///
+
+/// TRIANGLE , ROTATION &  PROJECTION
+triangle_t triangles_to_render[N_MESH_FACES]; 
+vect3_t cube_rotation = {0};  
 vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
-vect3_t cube_rotation = { .x = 0, .y = 0, .z = 0 };
 float fov_factor = 320;
+/// 
 
+/// DISPLAY & BUFFER
 uint32_t window_width = 0;
 uint32_t window_height = 0;
-
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* color_buffer_texture = NULL;
 uint32_t* color_buffer = NULL;
+/// 
 
 void setup(void) {
 	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
