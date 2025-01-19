@@ -151,6 +151,8 @@ void render() {
 
 	rect_t rect = { 0 };
 
+	draw_line(100, 200, 300, 50, 0xFFFFFFFF);
+
 	for (size_t i = 0; i < N_MESH_FACES; i++) {
 		triangle_t triangle = triangles_to_render[i];
 

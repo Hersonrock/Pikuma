@@ -42,6 +42,25 @@ void draw_pixel(uint32_t x, uint32_t y, uint32_t color) {
 	}
 }
 
+void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
+	int delta_x = (x1 - x0);
+	int delta_y = (y1 - y0);
+
+	int side_lenght = abs(delta_x) >= abs(delta_y) ? abs(delta_x) : abs(delta_y);
+
+	float x_inc = delta_x / (float)side_lenght;
+	float y_inc = delta_y / (float)side_lenght;
+
+	float current_x = x0;
+	float current_y = y0;
+
+	for (size_t i = 0; i <= side_lenght; i++) {
+		draw_pixel(round(current_x), round(current_y), color);
+		current_x += x_inc;
+		current_y += y_inc;
+	}
+}
+
 void draw_rect(rect_t rect, uint32_t color) {
 	for (size_t j = 0; j <= rect.h; j++) {
 		for (size_t i = 0; i < rect.w; i++) {

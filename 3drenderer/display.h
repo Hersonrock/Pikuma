@@ -23,6 +23,7 @@ extern uint32_t* color_buffer;
 bool initialize_window(void);
 
 void draw_pixel(uint32_t x, uint32_t y, uint32_t color);
+void draw_line(int x0, int y0, int x1, int y1, uint32_t color);
 void draw_rect(rect_t rect, uint32_t color);
 
 void render_color_buffer(void);
