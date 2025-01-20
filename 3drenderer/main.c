@@ -151,8 +151,6 @@ void render() {
 
 	rect_t rect = { 0 };
 
-	draw_line(100, 200, 300, 50, 0xFFFFFFFF);
-
 	for (size_t i = 0; i < N_MESH_FACES; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
@@ -164,7 +162,15 @@ void render() {
 
 			draw_rect(rect, 0xFFFFFFFF);
 		}
-
+		draw_triangle(
+			triangle.points[0].x,
+			triangle.points[0].y,
+			triangle.points[1].x,
+			triangle.points[1].y,
+			triangle.points[2].x,
+			triangle.points[2].y,
+			0xFFFFFFFF
+		);
 	}
 
 	render_color_buffer();
