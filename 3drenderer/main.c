@@ -1,6 +1,7 @@
 #include "display.h"
 #include "vector.h" 
 #include "mesh.h"
+#include "array.h"
 
 /// TIME
 #define FPS 120
@@ -13,8 +14,8 @@ bool is_running = false;
 ///
 
 /// TRIANGLE , ROTATION &  PROJECTION
-triangle_t triangles_to_render[N_MESH_FACES]; 
-vect3_t cube_rotation = {0};  
+triangle_t* triangles_to_render = NULL; 
+//vect3_t cube_rotation = {0};  
 vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
 float fov_factor = 320;
 /// 
@@ -47,6 +48,7 @@ void setup(void) {
 		fprintf(stderr, "Failed to create color buffer texture");
 	}
 
+	load_cube_mesh_data();
 }
 
 void process_input(void) {
@@ -69,22 +71,22 @@ void process_input(void) {
 			fov_factor -= 20;
 		}
 		if (event.key.keysym.sym == SDLK_RIGHT) {
-			cube_rotation.y += 0.1f;
+			mesh.rotation.y += 0.1f;
 		}
 		if (event.key.keysym.sym == SDLK_LEFT) {
-			cube_rotation.y -= 0.1f;
+			mesh.rotation.y -= 0.1f;
 		}
 		if (event.key.keysym.sym == SDLK_UP) {
-			cube_rotation.x += 0.1f;
+			mesh.rotation.x += 0.1f;
 		}
 		if (event.key.keysym.sym == SDLK_DOWN) {
-			cube_rotation.x -= 0.1f;
+			mesh.rotation.x -= 0.1f;
 		}
 		if (event.key.keysym.sym == SDLK_KP_MULTIPLY) {
-			cube_rotation.z += 0.1f;
+			mesh.rotation.z += 0.1f;
 		}
 		if (event.key.keysym.sym == SDLK_KP_DIVIDE) {
-			cube_rotation.z -= 0.1f;
+			mesh.rotation.z -= 0.1f;
 		}
 
 		break;
@@ -113,22 +115,26 @@ void update(void) {
 
 	previous_frame_time = SDL_GetTicks();
 
-	for (size_t i = 0; i < N_MESH_FACES; i++) {
+	//RE-Initalize triangles to render.
+	triangles_to_render = NULL;
+	int num_faces = array_length(mesh.faces);
 
-		face_t mesh_face = mesh_faces[i];
+	for (size_t i = 0; i < num_faces; i++) {
+
+		face_t mesh_face = mesh.faces[i];
 
 		vect3_t face_vertices[3];
-		face_vertices[0] = mesh_vertices[mesh_face.a - 1];
-		face_vertices[1] = mesh_vertices[mesh_face.b - 1];
-		face_vertices[2] = mesh_vertices[mesh_face.c - 1];
+		face_vertices[0] = mesh.vertices[mesh_face.a - 1];
+		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
+		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
 		triangle_t projected_triangle;
 
 		for (size_t j = 0; j < 3; j++) {
 			vect3_t transformed_vertex = face_vertices[j];
-			transformed_vertex = vec3_rotate_x(transformed_vertex, cube_rotation.x);
-			transformed_vertex = vec3_rotate_y(transformed_vertex, cube_rotation.y);
-			transformed_vertex = vec3_rotate_z(transformed_vertex, cube_rotation.z);
+			transformed_vertex = vec3_rotate_x(transformed_vertex, mesh.rotation.x);
+			transformed_vertex = vec3_rotate_y(transformed_vertex, mesh.rotation.y);
+			transformed_vertex = vec3_rotate_z(transformed_vertex, mesh.rotation.z);
 
 			transformed_vertex.z -= camera_position.z;
 			
@@ -140,7 +146,7 @@ void update(void) {
 
 			projected_triangle.points[j] = projected_point;
 		}
-		triangles_to_render[i] = projected_triangle;
+		array_push(triangles_to_render, projected_triangle);
 
 	}
 }
@@ -150,8 +156,8 @@ void render() {
 	SDL_RenderClear(renderer);
 
 	rect_t rect = { 0 };
-
-	for (size_t i = 0; i < N_MESH_FACES; i++) {
+	int num_triangles = array_length(triangles_to_render);
+	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
 		for (size_t j = 0; j < 3; j++) {
@@ -173,10 +179,18 @@ void render() {
 		);
 	}
 
+	array_free(triangles_to_render);
+
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
 
 	SDL_RenderPresent(renderer);
+}
+
+void free_resources(void) {
+	free(color_buffer);
+	array_free(mesh.faces);
+	array_free(mesh.vertices);
 }
 
 int main(int argc, char* argv[]) {
@@ -191,5 +205,7 @@ int main(int argc, char* argv[]) {
 		render();
 	}
 	destroy_window();
+	free_resources();
+
 	return 0;
 }
