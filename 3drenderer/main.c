@@ -3,7 +3,6 @@
 #include "mesh.h"
 #include "array.h"
 
-//Testing share access
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
