@@ -33,7 +33,9 @@ uint32_t* color_buffer = NULL;
 /// 
 
 void setup(void) {
-	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
+	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) *
+                                             window_width *
+                                             window_height);
 
 	if (!color_buffer) {
 		fprintf(stderr, "Failed to allocate color buffer.\n");
@@ -56,7 +58,8 @@ void setup(void) {
         if(load_obj(obj1)){
                 is_running = false;
         }
-	load_cube_mesh_data();
+	//load_cube_mesh_data();
+        load_obj_mesh_data(obj_vertices, obj_faces);
 }
 void process_input(void) {
 	SDL_Event event;
@@ -114,7 +117,9 @@ vect2_t project_point(vect3_t point) {
 
 void update(void) {
 
-	uint32_t time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - previous_frame_time);
+	uint32_t time_to_wait = FRAME_TARGET_TIME -
+                                  (SDL_GetTicks() - 
+                                previous_frame_time);
 
 	if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
 		SDL_Delay(time_to_wait);
@@ -139,13 +144,17 @@ void update(void) {
 
 		for (size_t j = 0; j < 3; j++) {
 			vect3_t transformed_vertex = face_vertices[j];
-			transformed_vertex = vec3_rotate_x(transformed_vertex, mesh.rotation.x);
-			transformed_vertex = vec3_rotate_y(transformed_vertex, mesh.rotation.y);
-			transformed_vertex = vec3_rotate_z(transformed_vertex, mesh.rotation.z);
+			transformed_vertex = vec3_rotate_x(transformed_vertex,
+                                                           mesh.rotation.x);
+			transformed_vertex = vec3_rotate_y(transformed_vertex,
+                                                           mesh.rotation.y);
+			transformed_vertex = vec3_rotate_z(transformed_vertex,
+                                                           mesh.rotation.z);
 
 			transformed_vertex.z -= camera_position.z;
 			
-			vect2_t projected_point = project_point(transformed_vertex);
+			vect2_t projected_point = project_point(
+                                                        transformed_vertex);
 			
 			projected_point.x += (window_width / 2);
 			projected_point.y += (window_height / 2);
