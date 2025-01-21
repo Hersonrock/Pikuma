@@ -45,6 +45,7 @@ int read_file(FILE *obj_file){
                                                   &vertex.z);
                         print_debug((void *)&vertex, "vect3_t");
                         array_push(obj_vertices, vertex);
+                        continue;
                 }
 
                 if(strncmp(buffer, "f ", 2) == 0){
@@ -68,8 +69,9 @@ int read_file(FILE *obj_file){
 
                         print_debug((void *)&faces, "face_t");
                         array_push(obj_faces, faces);
+                        continue;
                 }
-                printf("No matching line\n");
+                printf("No matching line: %s\n", buffer);
         }
         
         return 0;
@@ -78,11 +80,11 @@ int read_file(FILE *obj_file){
 void print_debug(void *obj, char *type) {
     if (strcmp(type, "face_t") == 0) {
         face_t face = *(face_t *)obj; // Dereference the casted pointer
-        printf("face = [%d, %d, %d]\n", face.a, face.b, face.c);
+        printf("[%d, %d, %d]\n", face.a, face.b, face.c);
     } else if (strcmp(type, "vect3_t") == 0) {
         vect3_t vect3 = *(vect3_t *)obj; // Similar handling for vect3_t
 
-        printf("vertex = [%d, %d, %d]\n", vect3.x, vect3.y, vect3.z);
+        printf("[%f, %f, %f]\n", vect3.x, vect3.y, vect3.z);
     } else {
         printf("Unknown type: %s\n", type);
     }
