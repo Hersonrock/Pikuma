@@ -6,6 +6,7 @@
 
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
+const char *obj2 = "f22.obj";
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)

@@ -8,12 +8,12 @@ int load_obj(const char *obj_path){
         FILE* obj_file;
         obj_file = open_file(obj_path,"r"); 
         if(obj_file != NULL){
-                return 0;
         } else {
                 return 1;
         }
         read_file(obj_file);
         fclose(obj_file);
+        return 0;
 }
 FILE *open_file(const char *file_path,char *mode){
         FILE *fd = fopen(file_path, mode);
@@ -22,14 +22,22 @@ FILE *open_file(const char *file_path,char *mode){
                 fprintf(stderr, "Could not open file on path:\n\t%s\n", file_path);
                 perror("Failed to open file");
         }
+        else{
+                printf("%s File opened\n", file_path);
+        }
         
         return fd;
 }
 int read_file(FILE *obj_file){
         char buffer[MAX_LINE_SIZE];
-        
+
+        printf("Reading file...\n");
         while(fgets(buffer, sizeof(buffer), obj_file)){
-                buffer[strcspn(buffer, '\n')] = '\0';
+                // Remove trailing newline and carriage return
+                buffer[strcspn(buffer, "\r\n")] = '\0';
+                if (buffer[0] == '\0') {
+                        continue;
+                }
                 if(strncmp(buffer, "v ", 2) == 0){
                         vect3_t vertex;
                         sscanf_s(buffer, "v %f %f %f", &vertex.x,
@@ -41,13 +49,27 @@ int read_file(FILE *obj_file){
 
                 if(strncmp(buffer, "f ", 2) == 0){
                         face_t faces;
-                        buffer[strcspn(buffer, '/')] = ' ';
-                        sscanf_s(buffer, "f %d * * %d * * %d * *", &faces.a,
-                                                  &faces.b,
-                                                  &faces.c);
+                        int vertex_indices[3];
+                        int texture_indices[3];
+                        int normal_indices[3];
+                        sscanf_s(buffer, "f %d/%d/%d %d/%d/%d %d/%d/%d",
+                                                &vertex_indices[0],
+                                                &texture_indices[0],
+                                                &normal_indices[0],
+                                                &vertex_indices[1],
+                                                &texture_indices[1],
+                                                &normal_indices[1],
+                                                &vertex_indices[2],
+                                                &texture_indices[2],
+                                                &normal_indices[2]);
+                        faces.a = vertex_indices[0];
+                        faces.b = vertex_indices[1];
+                        faces.c = vertex_indices[2];
+
                         print_debug((void *)&faces, "face_t");
                         array_push(obj_faces, faces);
                 }
+                printf("No matching line\n");
         }
         
         return 0;
