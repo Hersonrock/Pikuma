@@ -2,7 +2,10 @@
 #include "vector.h" 
 #include "mesh.h"
 #include "array.h"
+#include "load.h"
 
+/// Object(.obj) files
+const char *obj1 = "cube.obj";
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
@@ -34,6 +37,7 @@ void setup(void) {
 
 	if (!color_buffer) {
 		fprintf(stderr, "Failed to allocate color buffer.\n");
+                is_running = false;
 	}
 
 	color_buffer_texture = SDL_CreateTexture(
@@ -46,11 +50,14 @@ void setup(void) {
 
 	if (!color_buffer_texture) {
 		fprintf(stderr, "Failed to create color buffer texture");
+                is_running = false;
 	}
 
+        if(load_obj(obj1)){
+                is_running = false;
+        }
 	load_cube_mesh_data();
 }
-
 void process_input(void) {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -117,7 +124,7 @@ void update(void) {
 
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
-	int num_faces = array_length(mesh.faces);
+	uint32_t num_faces = array_length(mesh.faces);
 
 	for (size_t i = 0; i < num_faces; i++) {
 
@@ -156,25 +163,25 @@ void render() {
 	SDL_RenderClear(renderer);
 
 	rect_t rect = { 0 };
-	int num_triangles = array_length(triangles_to_render);
+	uint32_t num_triangles = array_length(triangles_to_render);
 	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
 		for (size_t j = 0; j < 3; j++) {
-			rect.x = triangle.points[j].x;
-			rect.y = triangle.points[j].y;
+			rect.x = (uint32_t)triangle.points[j].x;
+			rect.y = (uint32_t)triangle.points[j].y;
 			rect.w = 3;
 			rect.h = 3;
 
 			draw_rect(rect, 0xFFFFFFFF);
 		}
 		draw_triangle(
-			triangle.points[0].x,
-			triangle.points[0].y,
-			triangle.points[1].x,
-			triangle.points[1].y,
-			triangle.points[2].x,
-			triangle.points[2].y,
+	        (uint32_t)triangle.points[0].x,
+		(uint32_t)triangle.points[0].y,
+		(uint32_t)triangle.points[1].x,
+		(uint32_t)triangle.points[1].y,
+		(uint32_t)triangle.points[2].x,
+		(uint32_t)triangle.points[2].y,
 			0xFFFFFFFF
 		);
 	}
@@ -197,7 +204,7 @@ int main(int argc, char* argv[]) {
 
 	is_running = initialize_window();
 
-	setup();
+        setup();
 
 	while (is_running) {
 		process_input();
