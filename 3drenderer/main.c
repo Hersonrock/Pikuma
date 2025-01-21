@@ -7,6 +7,7 @@
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
 const char *obj2 = "f22.obj";
+const char *obj3 = "UltBunny.obj";
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
@@ -117,7 +118,6 @@ vect2_t project_point(vect3_t point) {
 }
 
 void update(void) {
-
 	uint32_t time_to_wait = FRAME_TARGET_TIME -
                                   (SDL_GetTicks() - 
                                 previous_frame_time);
@@ -131,11 +131,8 @@ void update(void) {
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
 	uint32_t num_faces = array_length(mesh.faces);
-
 	for (size_t i = 0; i < num_faces; i++) {
-
 		face_t mesh_face = mesh.faces[i];
-
 		vect3_t face_vertices[3];
 		face_vertices[0] = mesh.vertices[mesh_face.a - 1];
 		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
@@ -164,7 +161,6 @@ void update(void) {
 			projected_triangle.points[j] = projected_point;
 		}
 		array_push(triangles_to_render, projected_triangle);
-
 	}
 }
 
@@ -180,20 +176,20 @@ void render() {
 		for (size_t j = 0; j < 3; j++) {
 			rect.x = (uint32_t)triangle.points[j].x;
 			rect.y = (uint32_t)triangle.points[j].y;
-			rect.w = 3;
-			rect.h = 3;
+			rect.w = 1;
+			rect.h = 1;
 
 			draw_rect(rect, 0xFFFFFFFF);
 		}
-		draw_triangle(
-	        (uint32_t)triangle.points[0].x,
-		(uint32_t)triangle.points[0].y,
-		(uint32_t)triangle.points[1].x,
-		(uint32_t)triangle.points[1].y,
-		(uint32_t)triangle.points[2].x,
-		(uint32_t)triangle.points[2].y,
-			0xFFFFFFFF
-		);
+		 draw_triangle(
+	         (uint32_t)triangle.points[0].x,
+		 (uint32_t)triangle.points[0].y,
+		 (uint32_t)triangle.points[1].x,
+		 (uint32_t)triangle.points[1].y,
+		 (uint32_t)triangle.points[2].x,
+		 (uint32_t)triangle.points[2].y,
+		 	0xFFFFFFFF
+		 );
 	}
 
 	array_free(triangles_to_render);

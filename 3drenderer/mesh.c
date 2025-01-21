@@ -43,28 +43,28 @@ face_t cube_faces[N_CUBE_FACES] = {
 };
 
 void load_cube_mesh_data(void) {
-    for (int i = 0; i < N_CUBE_VERTICES; i++) {
-        vect3_t cube_vertex = cube_vertices[i];
-        array_push(mesh.vertices, cube_vertex);
-    }
+        for (int i = 0; i < N_CUBE_VERTICES; i++) {
+                vect3_t cube_vertex = cube_vertices[i];
+                array_push(mesh.vertices, cube_vertex);
+        }
 
-    for (int i = 0; i < N_CUBE_FACES; i++) {
-        face_t cube_face = cube_faces[i];
-        array_push(mesh.faces, cube_face);
-    }
+        for (int i = 0; i < N_CUBE_FACES; i++) {
+                face_t cube_face = cube_faces[i];
+                array_push(mesh.faces, cube_face);
+        }
 }
 
 void load_obj_mesh_data(vect3_t *vertices, face_t *faces){
-    for (int i = 0; i <array_length(vertices); i++) {
-        vect3_t cube_vertex = cube_vertices[i];
-        array_push(mesh.vertices, cube_vertex);
-    }
+        for (int i = 0; i <array_length(vertices); i++) {
+                vect3_t cube_vertex = vertices[i];
+                array_push(mesh.vertices, cube_vertex);
+        }
 
-    for (int i = 0; i < array_length(faces); i++) {
-        face_t cube_face = cube_faces[i];
-        array_push(mesh.faces, cube_face);
-    }
-
+        for (int i = 0; i < array_length(faces); i++) {
+                face_t cube_face = faces[i];
+                array_push(mesh.faces, cube_face);
+        }
+        // DEBUG
+        printf("n_vertices: %d\n", array_length(mesh.vertices));
+        printf("n_faces: %d\n", array_length(mesh.faces));
 }
-
-// todo create inplementation
