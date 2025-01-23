@@ -44,6 +44,13 @@ vect2_t vect2_add(vect2_t v1, vect2_t v2){
 
         return result;
 }
+vect2_t vect2_sub(vect2_t v1, vect2_t v2){
+        vect2_t result;
+        result.x = v1.x - v2.x;
+        result.y = v1.y - v2.y;
+
+        return result;
+}
 /////////////////////VECTOR 3D//////////////////
 float vect3_lenght(vect3_t v){
         float lenght = v.x * v.x + v.y * v.y + v.z * v.z;
@@ -55,6 +62,14 @@ vect3_t vect3_add(vect3_t v1, vect3_t v2){
         result.x = v1.x + v2.x;
         result.y = v1.y + v2.y;
         result.z = v1.z + v2.z;
+
+        return result;
+}
+vect3_t vect3_sub(vect3_t v1, vect3_t v2){
+        vect3_t result;
+        result.x = v1.x - v2.x;
+        result.y = v1.y - v2.y;
+        result.z = v1.z - v2.z;
 
         return result;
 }
