@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "array.h"
 #include "load.h"
+#include "test.h"
 
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
@@ -205,7 +206,12 @@ void free_resources(void) {
 	array_free(mesh.faces);
 	array_free(mesh.vertices);
 }
+#ifdef RUN_TESTS
+int main(int argc, char* argv[]) {
+        printf("Running tests...\n");
 
+}
+#else
 int main(int argc, char* argv[]) {
 
 	is_running = initialize_window();
@@ -222,3 +228,4 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
+#endif //RUN_TESTS

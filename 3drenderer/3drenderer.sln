@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3drenderer", "3drenderer.vcxproj", "{9A44D05D-5220-4E78-B20A-5C9878D31029}"
 EndProject
@@ -11,6 +11,8 @@ Global
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		Tests|x64 = Tests|x64
+		Tests|x86 = Tests|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Debug|x64.ActiveCfg = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Release|x64.Build.0 = Release|x64
 		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Release|x86.ActiveCfg = Release|Win32
 		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Release|x86.Build.0 = Release|Win32
+		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Tests|x64.ActiveCfg = Tests|x64
+		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Tests|x64.Build.0 = Tests|x64
+		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Tests|x86.ActiveCfg = Tests|Win32
+		{9A44D05D-5220-4E78-B20A-5C9878D31029}.Tests|x86.Build.0 = Tests|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
