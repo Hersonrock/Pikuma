@@ -140,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RUN_TESTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);RUN_TESTS;RUN_TESTS;RUN_TESTS;RUN_TESTS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -186,6 +187,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RUN_TESTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);RUN_TESTS;RUN_TESTS;RUN_TESTS;RUN_TESTS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

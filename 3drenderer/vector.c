@@ -51,6 +51,21 @@ vect2_t vect2_sub(vect2_t v1, vect2_t v2){
 
         return result;
 }
+vec2t_t vect2_mult(vect2_t v, float factor){
+        vect2_t result;
+        result.x = v.x * factor;
+        result.y = v.y * factor;
+
+        return result;
+}
+vec2t_t vect2_div(vect2_t v, float factor){
+        vect2_t result;
+        float factor_div = 1 / factor;
+        result.x = v.x * factor_div;
+        result.y = v.y * factor_div;
+
+        return result;
+}
 /////////////////////VECTOR 3D//////////////////
 float vect3_lenght(vect3_t v){
         float lenght = v.x * v.x + v.y * v.y + v.z * v.z;
@@ -70,6 +85,23 @@ vect3_t vect3_sub(vect3_t v1, vect3_t v2){
         result.x = v1.x - v2.x;
         result.y = v1.y - v2.y;
         result.z = v1.z - v2.z;
+
+        return result;
+}
+vec3t_t vect3_mult(vect3_t v, float factor){
+        vect3_t result;
+        result.x = v.x * factor;
+        result.y = v.y * factor;
+        result.z = v.z * factor;
+
+        return result;
+}
+vec3t_t vect3_div(vect3_t v, float factor){
+        vect3_t result;
+        float factor_div = 1 / factor;
+        result.x = v.x * factor_div;
+        result.y = v.y * factor_div;
+        result.z = v.z * factor_div;
 
         return result;
 }

@@ -209,7 +209,9 @@ void free_resources(void) {
 #ifdef RUN_TESTS
 int main(int argc, char* argv[]) {
         printf("Running tests...\n");
-
+        test_vect2_lenght();
+        test_vect3_lenght();
+        return 0;
 }
 #else
 int main(int argc, char* argv[]) {
