@@ -51,14 +51,14 @@ vect2_t vect2_sub(vect2_t v1, vect2_t v2){
 
         return result;
 }
-vec2t_t vect2_mult(vect2_t v, float factor){
+vect2_t vect2_mult(vect2_t v, float factor){
         vect2_t result;
         result.x = v.x * factor;
         result.y = v.y * factor;
 
         return result;
 }
-vec2t_t vect2_div(vect2_t v, float factor){
+vect2_t vect2_div(vect2_t v, float factor){
         vect2_t result;
         float factor_div = 1 / factor;
         result.x = v.x * factor_div;
@@ -88,7 +88,7 @@ vect3_t vect3_sub(vect3_t v1, vect3_t v2){
 
         return result;
 }
-vec3t_t vect3_mult(vect3_t v, float factor){
+vect3_t vect3_mult(vect3_t v, float factor){
         vect3_t result;
         result.x = v.x * factor;
         result.y = v.y * factor;
@@ -96,7 +96,7 @@ vec3t_t vect3_mult(vect3_t v, float factor){
 
         return result;
 }
-vec3t_t vect3_div(vect3_t v, float factor){
+vect3_t vect3_div(vect3_t v, float factor){
         vect3_t result;
         float factor_div = 1 / factor;
         result.x = v.x * factor_div;
