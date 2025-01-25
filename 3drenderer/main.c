@@ -61,6 +61,8 @@ void setup(void) {
         if(load_obj(obj2)){
                 is_running = false;
         }
+        vect3_t v = { .x = 2, .y = 1, .z = 1};
+        vect3_t test = vect3_div(v, 0);
 	//load_cube_mesh_data();
         load_obj_mesh_data(obj_vertices, obj_faces);
 }

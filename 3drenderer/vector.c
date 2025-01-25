@@ -60,6 +60,7 @@ vect2_t vect2_mult(vect2_t v, float factor){
 }
 vect2_t vect2_div(vect2_t v, float factor){
         vect2_t result;
+        assert(factor != 0);
         float factor_div = 1 / factor;
         result.x = v.x * factor_div;
         result.y = v.y * factor_div;
@@ -102,7 +103,8 @@ vect3_t vect3_mult(vect3_t v, float factor){
         return result;
 }
 vect3_t vect3_div(vect3_t v, float factor){
-        vect3_t result;
+        vect3_t result = {0};
+        assert(factor != 0);
         float factor_div = 1 / factor;
         result.x = v.x * factor_div;
         result.y = v.y * factor_div;

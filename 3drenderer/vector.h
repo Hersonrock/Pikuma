@@ -1,6 +1,6 @@
 #ifndef VECTOR
 #define VECTOR
-
+#include <assert.h>
 typedef struct {
 	float x;
 	float y;
