@@ -6,6 +6,7 @@
 #define TOLERANCE  0.001
 
 //TODO: Functions protoypes for tests
+void run_all_tests();
 
 void test_vect2_length();
 void test_vect2_add();
@@ -20,3 +21,4 @@ void test_vect3_sub();
 void test_vect3_mult();
 void test_vect3_div();
 void test_vect3_dot();
+
