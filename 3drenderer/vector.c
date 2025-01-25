@@ -66,6 +66,11 @@ vect2_t vect2_div(vect2_t v, float factor){
 
         return result;
 }
+float vect2_dot(vect2_t v1, vect2_t v2){
+        float result;
+        result = v1.x * v2.x + v1.y * v2.y;
+        return result;
+}
 /////////////////////VECTOR 3D//////////////////
 float vect3_lenght(vect3_t v){
         float lenght = v.x * v.x + v.y * v.y + v.z * v.z;
@@ -103,5 +108,10 @@ vect3_t vect3_div(vect3_t v, float factor){
         result.y = v.y * factor_div;
         result.z = v.z * factor_div;
 
+        return result;
+}
+float vect3_dot(vect3_t v1, vect3_t v2){
+        float result;
+        result = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
         return result;
 }
