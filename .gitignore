@@ -10,6 +10,7 @@ SDL2/
 Playground/
 *.obj
 *.pptx
+*.exe
 
 # User-specific files
 *.rsuser
