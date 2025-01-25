@@ -29,5 +29,6 @@ vect3_t vect3_sub(vect3_t v1, vect3_t v2);
 vect3_t vect3_mult(vect3_t v, float factor);
 vect3_t vect3_div(vect3_t v, float factor);
 float vect3_dot(vect3_t v1, vect3_t v2);
+vect3_t vect3_cross(vect3_t v1, vect3_t v2);
 
 #endif //VECTOR
