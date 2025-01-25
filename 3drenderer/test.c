@@ -17,6 +17,7 @@ void run_all_tests(){
         test_vect3_mult();
         test_vect3_div();
         test_vect3_dot();
+        test_vect3_cross();
 }
 ///////VECTOR 2D TESTS/////
 void test_vect2_length(){
@@ -115,4 +116,13 @@ void test_vect3_dot(){
         float dot = vect3_dot(v1, v2);
         assert(fabsf(dot - 24) < TOLERANCE);
         printf("\ttest_vect3_dot passed!\n");
+}
+void test_vect3_cross(){
+        vect3_t v1 = { .x = 4, .y = -2, .z = -2};
+        vect3_t v2 = { .x = -1, .y = -3, .z = 3};
+        vect3_t cross = vect3_cross(v1, v2);
+        assert(fabsf(cross.x - (-12)) < TOLERANCE);
+        assert(fabsf(cross.y - (-10)) < TOLERANCE);
+        assert(fabsf(cross.z - (-14)) < TOLERANCE);
+        printf("\ttest_vect3_cross passed!\n");
 }

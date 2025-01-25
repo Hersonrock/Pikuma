@@ -21,4 +21,5 @@ void test_vect3_sub();
 void test_vect3_mult();
 void test_vect3_div();
 void test_vect3_dot();
+void test_vect3_cross();
 
