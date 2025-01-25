@@ -7,5 +7,14 @@
 
 //TODO: Functions protoypes for tests
 
-void test_vect2_lenght();
-void test_vect3_lenght();
+void test_vect2_length();
+void test_vect2_add();
+void test_vect2_sub();
+void test_vect2_mult();
+void test_vect2_div();
+
+void test_vect3_length();
+void test_vect3_add();
+void test_vect3_sub();
+void test_vect3_mult();
+void test_vect3_div();

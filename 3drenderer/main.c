@@ -209,8 +209,18 @@ void free_resources(void) {
 #ifdef RUN_TESTS
 int main(int argc, char* argv[]) {
         printf("Running tests...\n");
-        test_vect2_lenght();
-        test_vect3_lenght();
+
+        test_vect2_length();
+        test_vect2_add();
+        test_vect2_sub();
+        test_vect2_mult();
+        test_vect2_div();
+
+        test_vect3_length();
+        test_vect3_add();
+        test_vect3_sub();
+        test_vect3_mult();
+        test_vect3_div();
         return 0;
 }
 #else
