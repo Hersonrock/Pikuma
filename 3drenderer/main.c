@@ -22,7 +22,7 @@ bool is_running = false;
 /// TRIANGLE , ROTATION &  PROJECTION
 triangle_t* triangles_to_render = NULL; 
 //vect3_t cube_rotation = {0};  
-vect3_t camera_position = { .x = 0, .y = 0, .z = -5};
+vect3_t camera_position = { .x = 0, .y = 0, .z = 0};
 float fov_factor = 320;
 /// 
 
@@ -154,16 +154,16 @@ void update(void) {
                                                       transformed_vertex[j],
                                                       mesh.rotation.z);
 
-                        transformed_vertex[j].z -= camera_position.z;
+                        transformed_vertex[j].z += 5;
                 }
                 //Face culling
                 vect3_t normal = triangle_normal(transformed_vertex[0],
                                                  transformed_vertex[1],
                                                  transformed_vertex[2]);
-                vect3_t vertice_to_camera = vect3_sub(transformed_vertex[0],
-                                                      camera_position);
+                vect3_t camera_ray = vect3_sub(camera_position,
+                                transformed_vertex[0]);
                 
-                if(vect3_dot(normal, vertice_to_camera) < 0) continue;
+                if(vect3_dot(normal, camera_ray) < 0) continue;
 
                 for (size_t j = 0; j < 3; j++) {
 			vect2_t projected_point = project_point(
