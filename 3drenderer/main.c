@@ -188,14 +188,6 @@ void render() {
 	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
-		for (size_t j = 0; j < 3; j++) {
-			rect.x = (uint32_t)triangle.points[j].x;
-			rect.y = (uint32_t)triangle.points[j].y;
-			rect.w = 1;
-			rect.h = 1;
-
-			draw_rect(rect, 0xFFFFFFFF);
-		}
 		 draw_triangle(
 	         (uint32_t)triangle.points[0].x,
 		 (uint32_t)triangle.points[0].y,
