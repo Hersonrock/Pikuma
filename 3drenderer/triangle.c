@@ -62,3 +62,7 @@ vect2_t triangle_m_point(triangle_t t){
         return m;
 }
 
+void draw_filled_triangle(triangle_t t, uint32_t color){
+        triangle_sort(&t);
+        vect2_t m_point = triangle_m_point(t);
+}

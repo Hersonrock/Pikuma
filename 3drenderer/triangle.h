@@ -15,4 +15,6 @@ typedef  struct {
 vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3);
 void triangle_sort(triangle_t *t);
 vect2_t triangle_m_point(triangle_t t);
+
+void draw_filled_triangle(triangle_t t, uint32_t color);
 #endif //TRIANGLE
