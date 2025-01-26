@@ -31,10 +31,10 @@ vect3_t vec3_rotate_z(vect3_t v, float angle) {
 
 
 /////////////////////VECTOR 2D//////////////////
-float vect2_lenght(vect2_t v){
-        float lenght = v.x * v.x + v.y * v.y;
-        lenght = sqrt(lenght);
-        return lenght;
+float vect2_length(vect2_t v){
+        float length = v.x * v.x + v.y * v.y;
+        length = sqrt(length);
+        return length;
 }
 
 vect2_t vect2_add(vect2_t v1, vect2_t v2){
@@ -72,11 +72,14 @@ float vect2_dot(vect2_t v1, vect2_t v2){
         result = v1.x * v2.x + v1.y * v2.y;
         return result;
 }
+void vect2_normalize(vect2_t *v){
+        *v = vect2_div(*v, vect2_length(*v));
+}
 /////////////////////VECTOR 3D//////////////////
-float vect3_lenght(vect3_t v){
-        float lenght = v.x * v.x + v.y * v.y + v.z * v.z;
-        lenght = sqrt(lenght);
-        return lenght;
+float vect3_length(vect3_t v){
+        float length = v.x * v.x + v.y * v.y + v.z * v.z;
+        length = sqrt(length);
+        return length;
 }
 vect3_t vect3_add(vect3_t v1, vect3_t v2){
         vect3_t result;
@@ -125,11 +128,14 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 
         return result;
 }
+void vect3_normalize(vect3_t *v){
+        *v = vect3_div(*v, vect3_length(*v));
+}
 vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3){
         vect3_t base1 = vect3_sub(v2, v1);
         vect3_t base2 = vect3_sub(v3, v1);
         vect3_t normal = vect3_cross(base1,base2);
-        normal = vect3_div(normal,vect3_lenght(normal));
+        vect3_normalize(&normal);
         
         return normal;
 }

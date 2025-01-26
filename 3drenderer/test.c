@@ -22,9 +22,9 @@ void run_all_tests(){
 ///////VECTOR 2D TESTS/////
 void test_vect2_length(){
         vect2_t v1 = { .x = 3, .y = 4 };
-        float norm = vect2_lenght(v1);
+        float norm = vect2_length(v1);
         assert(fabsf(norm - 5) < TOLERANCE);
-        printf("\ttest_vect2_lenght passed!\n");
+        printf("\ttest_vect2_length passed!\n");
 }
 void test_vect2_add(){
         vect2_t v1 = { .x = 6, .y = 7};
@@ -69,10 +69,10 @@ void test_vect2_dot(){
 ///////VECTOR 3D TESTS/////
 void test_vect3_length(){
         vect3_t v1 = { .x = 3, .y = 4, .z = 6};
-        float norm = vect3_lenght(v1);
+        float norm = vect3_length(v1);
         float expected = 7.81f;
         assert(fabsf(norm - expected) < TOLERANCE);
-        printf("\ttest_vect3_lenght passed!\n");
+        printf("\ttest_vect3_length passed!\n");
 }
 void test_vect3_add(){
         vect3_t v1 = { .x = 6, .y = 7, .z = 3};
