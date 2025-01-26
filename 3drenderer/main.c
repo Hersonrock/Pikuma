@@ -183,21 +183,44 @@ void render() {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	rect_t rect = { 0 };
-	uint32_t num_triangles = array_length(triangles_to_render);
-	for (size_t i = 0; i < num_triangles; i++) {
-		triangle_t triangle = triangles_to_render[i];
+	//rect_t rect = { 0 };
+	//uint32_t num_triangles = array_length(triangles_to_render);
+	//for (size_t i = 0; i < num_triangles; i++) {
+	//	triangle_t triangle = triangles_to_render[i];
 
-		 draw_triangle(
-	         (uint32_t)triangle.points[0].x,
-		 (uint32_t)triangle.points[0].y,
-		 (uint32_t)triangle.points[1].x,
-		 (uint32_t)triangle.points[1].y,
-		 (uint32_t)triangle.points[2].x,
-		 (uint32_t)triangle.points[2].y,
-		 	0xFFFFFFFF
-		 );
-	}
+	//	 draw_triangle(
+	//         (uint32_t)triangle.points[0].x,
+	//	 (uint32_t)triangle.points[0].y,
+	//	 (uint32_t)triangle.points[1].x,
+	//	 (uint32_t)triangle.points[1].y,
+	//	 (uint32_t)triangle.points[2].x,
+	//	 (uint32_t)triangle.points[2].y,
+	//	 	0xFFFFFFFF
+	//	 );
+        //         triangle_sort(&triangle);
+        //         vect2_t m_point = triangle_m_point(triangle);
+	//}
+        triangle_t triangle = {
+                .points[0].x = 300,
+                .points[0].y = 100,
+                .points[1].x = 50,
+                .points[1].y = 400,
+                .points[2].x = 500,
+                .points[2].y = 700
+        };
+        draw_triangle(
+                        (uint32_t)triangle.points[0].x,
+                        (uint32_t)triangle.points[0].y,
+                        (uint32_t)triangle.points[1].x,
+                        (uint32_t)triangle.points[1].y,
+                        (uint32_t)triangle.points[2].x,
+                        (uint32_t)triangle.points[2].y,
+                        0xFF00FF00
+                     );
+        triangle_sort(&triangle);
+        vect2_t m_point = triangle_m_point(triangle);
+	rect_t rect = { .x = m_point.x, .y = m_point.y, .w = 4, .h = 4 };
+        draw_rect(rect , 0xFFFF0000);
 
 	array_free(triangles_to_render);
 

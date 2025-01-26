@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <math.h>
 
 vect3_t vec3_rotate_x(vect3_t v, float angle){
 	vect3_t rotated_vector = {
@@ -130,12 +129,4 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 }
 void vect3_normalize(vect3_t *v){
         *v = vect3_div(*v, vect3_length(*v));
-}
-vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3){
-        vect3_t base1 = vect3_sub(v2, v1);
-        vect3_t base2 = vect3_sub(v3, v1);
-        vect3_t normal = vect3_cross(base1,base2);
-        vect3_normalize(&normal);
-        
-        return normal;
 }
