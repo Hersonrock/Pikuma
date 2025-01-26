@@ -125,3 +125,11 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 
         return result;
 }
+vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3){
+        vect3_t base1 = vect3_sub(v2, v1);
+        vect3_t base2 = vect3_sub(v3, v1);
+        vect3_t normal = vect3_cross(base1,base2);
+        normal = vect3_div(normal,vect3_lenght(normal));
+        
+        return normal;
+}

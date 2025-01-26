@@ -30,5 +30,7 @@ vect3_t vect3_mult(vect3_t v, float factor);
 vect3_t vect3_div(vect3_t v, float factor);
 float vect3_dot(vect3_t v1, vect3_t v2);
 vect3_t vect3_cross(vect3_t v1, vect3_t v2);
+vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3);
+
 
 #endif //VECTOR

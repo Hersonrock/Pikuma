@@ -8,7 +8,7 @@
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
 const char *obj2 = "f22.obj";
-const char *obj3 = "UltBunny.obj";
+const char *obj3 = "WPveil.obj";
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
@@ -58,11 +58,9 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj2)){
+        if(load_obj(obj3)){
                 is_running = false;
         }
-        vect3_t v = { .x = 2, .y = 1, .z = 1};
-        vect3_t test = vect3_div(v, 0);
 	//load_cube_mesh_data();
         load_obj_mesh_data(obj_vertices, obj_faces);
 }
@@ -143,19 +141,33 @@ void update(void) {
 
 		triangle_t projected_triangle;
 
-		for (size_t j = 0; j < 3; j++) {
-			vect3_t transformed_vertex = face_vertices[j];
-			transformed_vertex = vec3_rotate_x(transformed_vertex,
-                                                           mesh.rotation.x);
-			transformed_vertex = vec3_rotate_y(transformed_vertex,
-                                                           mesh.rotation.y);
-			transformed_vertex = vec3_rotate_z(transformed_vertex,
-                                                           mesh.rotation.z);
+                vect3_t transformed_vertex[3];
+                for (size_t j = 0; j < 3; j++) {
+                        transformed_vertex[j] = face_vertices[j];
+                        transformed_vertex[j] = vec3_rotate_x(
+                                                      transformed_vertex[j],
+                                                      mesh.rotation.x);
+                        transformed_vertex[j] = vec3_rotate_y(
+                                                      transformed_vertex[j],
+                                                      mesh.rotation.y);
+                        transformed_vertex[j] = vec3_rotate_z(
+                                                      transformed_vertex[j],
+                                                      mesh.rotation.z);
 
-			transformed_vertex.z -= camera_position.z;
-			
+                        transformed_vertex[j].z -= camera_position.z;
+                }
+                //Face culling
+                vect3_t normal = triangle_normal(transformed_vertex[0],
+                                                 transformed_vertex[1],
+                                                 transformed_vertex[2]);
+                vect3_t vertice_to_camera = vect3_sub(transformed_vertex[0],
+                                                      camera_position);
+                
+                if(vect3_dot(normal, vertice_to_camera) < 0) continue;
+
+                for (size_t j = 0; j < 3; j++) {
 			vect2_t projected_point = project_point(
-                                                        transformed_vertex);
+                                                        transformed_vertex[j]);
 			
 			projected_point.x += (window_width / 2);
 			projected_point.y += (window_height / 2);

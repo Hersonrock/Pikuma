@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "array.h"
 #include "string.h"
+#include "vector.h"
 
 int load_obj(const char *obj_path){
         FILE* obj_file;
@@ -44,6 +45,8 @@ int read_file(FILE *obj_file){
                                                   &vertex.y,
                                                   &vertex.z);
                         print_debug((void *)&vertex, "vect3_t");
+
+                        vertex = vect3_div(vertex, 15);
                         array_push(obj_vertices, vertex);
                         continue;
                 }
