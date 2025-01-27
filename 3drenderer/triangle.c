@@ -15,37 +15,40 @@ void triangle_sort(triangle_t *t){
        v1 = t->points[1];
        v2 = t->points[2];
 
-       if(t->points[0].y < t->points[1].y && t->points[0].y < t->points[2].y){
-                if(t->points[1].y < t->points[2].y){
-                        t->points[0] = v2;
+       if(t->points[0].y <= t->points[1].y && 
+          t->points[0].y <= t->points[2].y){
+                if(t->points[1].y <= t->points[2].y){
+                        t->points[0] = v0;
                         t->points[1] = v1;
-                        t->points[2] = v0;
-                } else {
-                        t->points[0] = v1;
-                        t->points[1] = v2;
-                        t->points[2] = v0;
-                }
-       }
-       else if(t->points[1].y < t->points[0].y && t->points[1].y < t->points[2].y){
-                if(t->points[0].y < t->points[2].y){
-                        t->points[0] = v2;
-                        t->points[1] = v0;
-                        t->points[2] = v1;
+                        t->points[2] = v2;
                 } else {
                         t->points[0] = v0;
                         t->points[1] = v2;
                         t->points[2] = v1;
                 }
        }
-       else if(t->points[2].y < t->points[0].y && t->points[2].y < t->points[1].y){
-                if(t->points[0].y < t->points[1].y){
+       else if(t->points[1].y <= t->points[0].y &&
+               t->points[1].y <= t->points[2].y){
+                if(t->points[0].y <= t->points[2].y){
                         t->points[0] = v1;
                         t->points[1] = v0;
                         t->points[2] = v2;
                 } else {
-                        t->points[0] = v0;
+                        t->points[0] = v1;
+                        t->points[1] = v2;
+                        t->points[2] = v0;
+                }
+       }
+       else if(t->points[2].y <= t->points[0].y &&
+               t->points[2].y <= t->points[1].y){
+                if(t->points[0].y <= t->points[1].y){
+                        t->points[0] = v2;
+                        t->points[1] = v0;
+                        t->points[2] = v1;
+                } else {
+                        t->points[0] = v2;
                         t->points[1] = v1;
-                        t->points[2] = v2;
+                        t->points[2] = v0;
                 }
        }
 }
@@ -61,8 +64,60 @@ vect2_t triangle_m_point(triangle_t t){
 
         return m;
 }
+void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
+        float inv_slope1;
+        float inv_slope2;
+        if((t.points[1].y - t.points[0].y) == 0){
+                 inv_slope1 = 0;
+        }else{
+                 inv_slope1 = (float)(t.points[1].x - t.points[0].x) / 
+                        (t.points[1].y - t.points[0].y);
+        }
+        if((mid.y - t.points[0].y) == 0){
+                 inv_slope2 = 0;
+        }else {
+                 inv_slope2 = (float)(mid.x - t.points[0].x) / 
+                        (mid.y - t.points[0].y);
+        }
+        float x_start = t.points[0].x;
+        float x_end = t.points[0].x;
+        for(int y = t.points[0].y; y <= mid.y; y++){
+                draw_line((int)x_start, y, (int)x_end, y, color); 
+                x_start += inv_slope1;
+                x_end += inv_slope2;
+        }
+}
 
-void draw_filled_triangle(triangle_t t, uint32_t color){
+void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color){
+        float inv_slope1;
+        float inv_slope2;
+        if((t.points[1].y - t.points[2].y) == 0){
+                 inv_slope1 = 0;
+        }else{
+                 inv_slope1 = (float)(t.points[1].x - t.points[2].x) / 
+                        (t.points[1].y - t.points[2].y);
+        }
+        if((mid.y - t.points[2].y) == 0){
+                 inv_slope2 = 0;
+        }else {
+                 inv_slope2 = (float)(mid.x - t.points[2].x) / 
+                        (mid.y - t.points[2].y);
+        }
+        float x_start = t.points[2].x;
+        float x_end = t.points[2].x;
+        for(int y = t.points[2].y; y >= mid.y; y--){
+                draw_line((int)x_start, y, (int)x_end, y, color); 
+                x_start -= inv_slope1;
+                x_end -= inv_slope2;
+        }
+
+}
+void draw_filled_triangle(triangle_t triangle, uint32_t color){
+        triangle_t t = triangle;
+
         triangle_sort(&t);
+
         vect2_t m_point = triangle_m_point(t);
+        fill_flat_bottom_triangle(t, m_point, 0xFFFF0000);
+        fill_flat_top_triangle(t, m_point, 0xFFFF0000);
 }

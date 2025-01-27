@@ -217,10 +217,7 @@ void render() {
                         (uint32_t)triangle.points[2].y,
                         0xFF00FF00
                      );
-        triangle_sort(&triangle);
-        vect2_t m_point = triangle_m_point(triangle);
-	rect_t rect = { .x = m_point.x, .y = m_point.y, .w = 4, .h = 4 };
-        draw_rect(rect , 0xFFFF0000);
+        draw_filled_triangle(triangle, 0xFF00FF00);
 
 	array_free(triangles_to_render);
 
