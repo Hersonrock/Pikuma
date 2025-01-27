@@ -58,7 +58,7 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj3)){
+        if(load_obj(obj1)){
                 is_running = false;
         }
 	//load_cube_mesh_data();

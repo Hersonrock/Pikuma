@@ -46,7 +46,7 @@ int read_file(FILE *obj_file){
                                                   &vertex.z);
                         print_debug((void *)&vertex, "vect3_t");
 
-                        vertex = vect3_div(vertex, 15);
+                        vertex = vect3_div(vertex, FACTOR);
                         array_push(obj_vertices, vertex);
                         continue;
                 }
