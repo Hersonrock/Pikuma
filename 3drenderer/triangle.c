@@ -67,22 +67,14 @@ vect2_t triangle_m_point(triangle_t t){
 void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
         float inv_slope1;
         float inv_slope2;
-        if((t.points[1].y - t.points[0].y) == 0){
-                 inv_slope1 = 0;
-        }else{
-                 inv_slope1 = (float)(t.points[1].x - t.points[0].x) / 
-                        (t.points[1].y - t.points[0].y);
-        }
-        if((mid.y - t.points[0].y) == 0){
-                 inv_slope2 = 0;
-        }else {
-                 inv_slope2 = (float)(mid.x - t.points[0].x) / 
-                        (mid.y - t.points[0].y);
-        }
+        inv_slope1 = (float)(t.points[1].x - t.points[0].x) / 
+                (t.points[1].y - t.points[0].y);
+        inv_slope2 = (float)(mid.x - t.points[0].x) / 
+                (mid.y - t.points[0].y);
         float x_start = t.points[0].x;
         float x_end = t.points[0].x;
         for(int y = t.points[0].y; y <= mid.y; y++){
-                draw_line((int)x_start, y, (int)x_end, y, color); 
+                draw_line(x_start, y, x_end, y, color); 
                 x_start += inv_slope1;
                 x_end += inv_slope2;
         }
@@ -91,22 +83,14 @@ void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
 void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color){
         float inv_slope1;
         float inv_slope2;
-        if((t.points[1].y - t.points[2].y) == 0){
-                 inv_slope1 = 0;
-        }else{
-                 inv_slope1 = (float)(t.points[1].x - t.points[2].x) / 
-                        (t.points[1].y - t.points[2].y);
-        }
-        if((mid.y - t.points[2].y) == 0){
-                 inv_slope2 = 0;
-        }else {
-                 inv_slope2 = (float)(mid.x - t.points[2].x) / 
-                        (mid.y - t.points[2].y);
-        }
+        inv_slope1 = (float)(t.points[1].x - t.points[2].x) / 
+                (t.points[1].y - t.points[2].y);
+        inv_slope2 = (float)(mid.x - t.points[2].x) / 
+                (mid.y - t.points[2].y);
         float x_start = t.points[2].x;
         float x_end = t.points[2].x;
         for(int y = t.points[2].y; y >= mid.y; y--){
-                draw_line((int)x_start, y, (int)x_end, y, color); 
+                draw_line(x_start, y, x_end, y, color); 
                 x_start -= inv_slope1;
                 x_end -= inv_slope2;
         }
@@ -118,6 +102,6 @@ void draw_filled_triangle(triangle_t triangle, uint32_t color){
         triangle_sort(&t);
 
         vect2_t m_point = triangle_m_point(t);
-        fill_flat_bottom_triangle(t, m_point, 0xFFFF0000);
-        fill_flat_top_triangle(t, m_point, 0xFFFF0000);
+        fill_flat_bottom_triangle(t, m_point, color);
+        fill_flat_top_triangle(t, m_point, color);
 }
