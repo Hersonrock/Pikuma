@@ -130,3 +130,12 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 void vect3_normalize(vect3_t *v){
         *v = vect3_div(*v, vect3_length(*v));
 }
+void vect3_swap(vect3_t *v1, vect3_t *v2){
+        
+        v1->x = v1->x ^ v2.x;
+        v2->x = v1->x ^ v2.x;
+        v1->x = v1->x ^ v2.x;
+        v1->y = v1->y ^ v2.y;
+        v2->y = v1->y ^ v2.y;
+        v1->y = v1->y ^ v2.y;
+}
