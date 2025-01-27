@@ -15,42 +15,19 @@ void triangle_sort(triangle_t *t){
        v1 = t->points[1];
        v2 = t->points[2];
 
-       if(t->points[0].y <= t->points[1].y && 
-          t->points[0].y <= t->points[2].y){
-                if(t->points[1].y <= t->points[2].y){
-                        t->points[0] = v0;
-                        t->points[1] = v1;
-                        t->points[2] = v2;
-                } else {
-                        t->points[0] = v0;
-                        t->points[1] = v2;
-                        t->points[2] = v1;
-                }
+       if(v0.y > v1.y){
+               vect2_swap(&v0,&v1);
        }
-       else if(t->points[1].y <= t->points[0].y &&
-               t->points[1].y <= t->points[2].y){
-                if(t->points[0].y <= t->points[2].y){
-                        t->points[0] = v1;
-                        t->points[1] = v0;
-                        t->points[2] = v2;
-                } else {
-                        t->points[0] = v1;
-                        t->points[1] = v2;
-                        t->points[2] = v0;
-                }
+       if(v1.y > v2.y){
+               vect2_swap(&v1, &v2);
        }
-       else if(t->points[2].y <= t->points[0].y &&
-               t->points[2].y <= t->points[1].y){
-                if(t->points[0].y <= t->points[1].y){
-                        t->points[0] = v2;
-                        t->points[1] = v0;
-                        t->points[2] = v1;
-                } else {
-                        t->points[0] = v2;
-                        t->points[1] = v1;
-                        t->points[2] = v0;
-                }
+       if(v0.y > v1.y){
+               vect2_swap(&v0,&v1);
        }
+       t->points[0] = v0;
+       t->points[1] = v1;
+       t->points[2] = v2;
+       
 }
 
 

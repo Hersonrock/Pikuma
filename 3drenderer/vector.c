@@ -74,6 +74,14 @@ float vect2_dot(vect2_t v1, vect2_t v2){
 void vect2_normalize(vect2_t *v){
         *v = vect2_div(*v, vect2_length(*v));
 }
+void vect2_swap(vect2_t *v1, vect2_t *v2){
+       
+        vect2_t temp = *v1;
+        v1->x = v2->x;
+        v1->y = v2->y;
+        v2->x = temp.x;
+        v2->y = temp.y;
+}
 /////////////////////VECTOR 3D//////////////////
 float vect3_length(vect3_t v){
         float length = v.x * v.x + v.y * v.y + v.z * v.z;
@@ -129,13 +137,4 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 }
 void vect3_normalize(vect3_t *v){
         *v = vect3_div(*v, vect3_length(*v));
-}
-void vect3_swap(vect3_t *v1, vect3_t *v2){
-        
-        v1->x = v1->x ^ v2.x;
-        v2->x = v1->x ^ v2.x;
-        v1->x = v1->x ^ v2.x;
-        v1->y = v1->y ^ v2.y;
-        v2->y = v1->y ^ v2.y;
-        v1->y = v1->y ^ v2.y;
 }

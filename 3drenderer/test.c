@@ -9,6 +9,7 @@ void run_all_tests(){
         test_vect2_mult();
         test_vect2_div();
         test_vect2_dot();
+        test_vect2_swap();
 
         printf("Running vect3_t tests...\n");
         test_vect3_length();
@@ -65,6 +66,18 @@ void test_vect2_dot(){
         float dot = vect2_dot(v1, v2);
         assert(fabsf(dot - 18) < TOLERANCE);
         printf("\ttest_vect2_dot passed!\n");
+}
+void test_vect2_swap(){
+        vect2_t v1 = { .x = 4, .y = 5};
+        vect2_t v2 = { .x = 3, .y = 2};
+        //printf("v1 =[%.2f,%.2f], v2 =[%.2f,%.2f]\n", v1.x, v1.y, v2.x, v2.y);
+        vect2_swap(&v1, &v2);
+        //printf("v1 =[%.2f,%.2f], v2 =[%.2f,%.2f]\n", v1.x, v1.y, v2.x, v2.y);
+        assert(fabsf(v1.x - 3) < TOLERANCE);
+        assert(fabsf(v1.y - 2) < TOLERANCE);
+        assert(fabsf(v2.x - 4) < TOLERANCE);
+        assert(fabsf(v2.y - 5) < TOLERANCE);
+        printf("\ttest_vect2_swap passed!\n");
 }
 ///////VECTOR 3D TESTS/////
 void test_vect3_length(){

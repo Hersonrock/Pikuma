@@ -14,6 +14,7 @@ void test_vect2_sub();
 void test_vect2_mult();
 void test_vect2_div();
 void test_vect2_dot();
+void test_vect2_swap();
 
 void test_vect3_length();
 void test_vect3_add();
