@@ -15,6 +15,14 @@ const char *obj3 = "WPveil.obj";
 uint32_t previous_frame_time = 0;
 /// 
 
+//RENDER MODES CONTROL
+bool wireframe_mode1 = true;
+bool wireframe_mode2 = false;
+bool fill_mode = false;
+bool fill_wireframe_mode = false;
+bool face_culling_mode = false;
+//
+
 /// GAME LOOP
 bool is_running = false;
 ///
@@ -101,7 +109,33 @@ void process_input(void) {
 		if (event.key.keysym.sym == SDLK_KP_DIVIDE) {
 			mesh.rotation.z -= 0.1f;
 		}
-
+                if(event.key.keysym.sym == SDLK_1){
+                        wireframe_mode1 = true;
+                        wireframe_mode2 = false;
+                        fill_mode = false;
+                        fill_wireframe_mode = false;
+                }
+                if(event.key.keysym.sym == SDLK_2){
+                        wireframe_mode1 = false;
+                        wireframe_mode2 = true;
+                        fill_mode = false;
+                        fill_wireframe_mode = false;
+                }
+                if(event.key.keysym.sym == SDLK_3){
+                        wireframe_mode1 = false;
+                        wireframe_mode2 = false;
+                        fill_mode = true;
+                        fill_wireframe_mode = false;
+                }
+                if(event.key.keysym.sym == SDLK_4){
+                        wireframe_mode1 = false;
+                        wireframe_mode2 = false;
+                        fill_mode = false;
+                        fill_wireframe_mode = true;
+                }
+                if(event.key.keysym.sym == SDLK_c){
+                        face_culling_mode = !face_culling_mode;
+                }
 		break;
 
 	default:
@@ -157,13 +191,15 @@ void update(void) {
                         transformed_vertex[j].z += 5;
                 }
                 //Face culling
-                vect3_t normal = triangle_normal(transformed_vertex[0],
-                                                 transformed_vertex[1],
-                                                 transformed_vertex[2]);
-                vect3_t camera_ray = vect3_sub(camera_position,
-                                transformed_vertex[0]);
-                
-                if(vect3_dot(normal, camera_ray) < 0) continue;
+                if(face_culling_mode){
+                        vect3_t normal = triangle_normal(transformed_vertex[0],
+                                        transformed_vertex[1],
+                                        transformed_vertex[2]);
+                        vect3_t camera_ray = vect3_sub(camera_position,
+                                        transformed_vertex[0]);
+
+                        if(vect3_dot(normal, camera_ray) < 0) continue;
+                }
 
                 for (size_t j = 0; j < 3; j++) {
 			vect2_t projected_point = project_point(
@@ -188,57 +224,31 @@ void render() {
 	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
-		 draw_triangle(
-	         (uint32_t)triangle.points[0].x,
-		 (uint32_t)triangle.points[0].y,
-		 (uint32_t)triangle.points[1].x,
-		 (uint32_t)triangle.points[1].y,
-		 (uint32_t)triangle.points[2].x,
-		 (uint32_t)triangle.points[2].y,
-		 	0xFF000000
-		 );
+                if(wireframe_mode1){
+                        for(int j = 0; j < 3; j++){
+                                rect.x = (uint32_t)triangle.points[j].x;
+                                rect.y = (uint32_t)triangle.points[j].y;
+                                rect.w = 3;
+                                rect.h = 3;
+                                draw_rect(rect, 0xFFFF0000);
+                        }
+                }
+                if(wireframe_mode1 || wireframe_mode2 || fill_wireframe_mode){
+                        draw_triangle(
+                                        (uint32_t)triangle.points[0].x,
+                                        (uint32_t)triangle.points[0].y,
+                                        (uint32_t)triangle.points[1].x,
+                                        (uint32_t)triangle.points[1].y,
+                                        (uint32_t)triangle.points[2].x,
+                                        (uint32_t)triangle.points[2].y,
+                                        0xFF00FF00
+                                     );
+                }
 
-                 draw_filled_triangle(triangle, 0xFFC0C0C0);
+                 if(fill_mode || fill_wireframe_mode){
+                         draw_filled_triangle(triangle, 0xFFC0C0C0);
+                 }
 	}
-        //triangle_t triangle = {
-        //        //.points[0].x = 300,
-        //        //.points[0].y = 100,
-        //        //.points[1].x = 50,
-        //        //.points[1].y = 400,
-        //        //.points[2].x = 500,
-        //        //.points[2].y = 700
-        //        
-        //        //.points[0].x = 200,
-        //        //.points[0].y = 200,
-        //        //.points[1].x = 500,
-        //        //.points[1].y = 200,
-        //        //.points[2].x = 300,
-        //        //.points[2].y = 600
-
-        //        //.points[0].x = 300,
-        //        //.points[0].y = 100,
-        //        //.points[1].x = 200,
-        //        //.points[1].y = 400,
-        //        //.points[2].x = 600,
-        //        //.points[2].y = 400
-
-        //        .points[0].x = 896.55,
-        //        .points[0].y = 450.80,
-        //        .points[1].x = 875.20,
-        //        .points[1].y = 530.82,
-        //        .points[2].x = 1053.19,
-        //        .points[2].y = 531.03 
-        //};
-        //draw_triangle(
-        //                (uint32_t)triangle.points[0].x,
-        //                (uint32_t)triangle.points[0].y,
-        //                (uint32_t)triangle.points[1].x,
-        //                (uint32_t)triangle.points[1].y,
-        //                (uint32_t)triangle.points[2].x,
-        //                (uint32_t)triangle.points[2].y,
-        //                0xFF00FF00
-        //             );
-        //draw_filled_triangle(triangle, 0xFF00FF00);
 
 	array_free(triangles_to_render);
 
