@@ -41,13 +41,11 @@ vect2_t triangle_m_point(triangle_t t){
 
         return m;
 }
-void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
+void fill_flat_bottom_triangle(float x0, float y0,
+                               float x1, float y1,
+                               vect2_t mid, uint32_t color){
         float inv_slope1;
         float inv_slope2;
-        float x0 = t.points[0].x;
-        float y0 = t.points[0].y;
-        float x1 = t.points[1].x;
-        float y1 = t.points[1].y;
 
         inv_slope1 = (x1 - x0) / (y1 - y0);
         inv_slope2 = (mid.x - x0) / (mid.y - y0);
@@ -62,14 +60,11 @@ void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
         }
 }
 
-void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color){
+void fill_flat_top_triangle(float x1, float y1,
+                            float x2, float y2,
+                            vect2_t mid, uint32_t color){
         float inv_slope1;
         float inv_slope2;
-        float x1 = t.points[1].x;
-        float y1 = t.points[1].y;
-        float x2 = t.points[2].x;
-        float y2 = t.points[2].y;
-
         inv_slope1 = (x1 - x2) / (y1 - y2);
         inv_slope2 = (mid.x - x2) / (mid.y - y2);
         printf("Slopes [%.2f][%.2f]\n", inv_slope1, inv_slope2);
@@ -85,27 +80,30 @@ void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color){
 }
 void draw_filled_triangle(triangle_t triangle, uint32_t color){
         triangle_t t = triangle;
-
         triangle_sort(&t);
-        printf("[%.2f,%.2f][%.2f,%.2f][%.2f,%.2f]\n", t.points[0].x,
-                                                      t.points[0].y,
-                                                      t.points[1].x,
-                                                      t.points[1].y,
-                                                      t.points[2].x,
-                                                      t.points[2].y
-                                                      );
+        float x0 = t.points[0].x;
+        float y0 = t.points[0].y;
+        float x1 = t.points[1].x;
+        float y1 = t.points[1].y;
+        float x2 = t.points[2].x;
+        float y2 = t.points[2].y;
 
-        if(t.points[0].y == t.points[1].y){
+        printf("[%.2f,%.2f][%.2f,%.2f][%.2f,%.2f]\n", x0, y0,
+                                                      x1, y1,
+                                                      x2, y2);
+
+        if(y0 == y1){
                 printf("Flat top recognized\n");
-                fill_flat_top_triangle(t, t.points[1], color);
-        }else if(t.points[2].y == t.points[1].y){
+                fill_flat_top_triangle(x0, y0, x2, y2, t.points[1], color);
+        }
+        else if(y2 == y1){
                 printf("Flat bottom recognized\n");
-                fill_flat_bottom_triangle(t, t.points[1], color);
+                fill_flat_bottom_triangle(x0, y0, x1, y1, t.points[2], color);
         }else {
                 printf("Whole triangle recognized\n");
                 vect2_t m_point = triangle_m_point(t);
                 printf("m_point = [%.2f,%.2f]\n", m_point.x, m_point.y);
-                fill_flat_bottom_triangle(t, m_point, color);
-                fill_flat_top_triangle(t, m_point, color);
+                fill_flat_bottom_triangle(x0, y0, x1, y1, m_point, color);
+                fill_flat_top_triangle(x1, y1, x2, y2, m_point, color);
         }
 }

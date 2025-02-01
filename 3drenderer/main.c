@@ -183,47 +183,55 @@ void render() {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	//rect_t rect = { 0 };
-	//uint32_t num_triangles = array_length(triangles_to_render);
-	//for (size_t i = 0; i < num_triangles; i++) {
-	//	triangle_t triangle = triangles_to_render[i];
+	rect_t rect = { 0 };
+	uint32_t num_triangles = array_length(triangles_to_render);
+	for (size_t i = 0; i < num_triangles; i++) {
+		triangle_t triangle = triangles_to_render[i];
 
-	//	 draw_triangle(
-	//         (uint32_t)triangle.points[0].x,
-	//	 (uint32_t)triangle.points[0].y,
-	//	 (uint32_t)triangle.points[1].x,
-	//	 (uint32_t)triangle.points[1].y,
-	//	 (uint32_t)triangle.points[2].x,
-	//	 (uint32_t)triangle.points[2].y,
-	//	 	0xFF000000
-	//	 );
+		 draw_triangle(
+	         (uint32_t)triangle.points[0].x,
+		 (uint32_t)triangle.points[0].y,
+		 (uint32_t)triangle.points[1].x,
+		 (uint32_t)triangle.points[1].y,
+		 (uint32_t)triangle.points[2].x,
+		 (uint32_t)triangle.points[2].y,
+		 	0xFF000000
+		 );
 
-        //         draw_filled_triangle(triangle, 0xFFC0C0C0);
-	//}
-        triangle_t triangle = {
-                //.points[0].x = 300,
-                //.points[0].y = 100,
-                //.points[1].x = 50,
-                //.points[1].y = 400,
-                //.points[2].x = 500,
-                //.points[2].y = 700
-                .points[0].x = 200,
-                .points[0].y = 200,
-                .points[1].x = 500,
-                .points[1].y = 200,
-                .points[2].x = 300,
-                .points[2].y = 600
-        };
-        draw_triangle(
-                        (uint32_t)triangle.points[0].x,
-                        (uint32_t)triangle.points[0].y,
-                        (uint32_t)triangle.points[1].x,
-                        (uint32_t)triangle.points[1].y,
-                        (uint32_t)triangle.points[2].x,
-                        (uint32_t)triangle.points[2].y,
-                        0xFF00FF00
-                     );
-        draw_filled_triangle(triangle, 0xFF00FF00);
+                 draw_filled_triangle(triangle, 0xFFC0C0C0);
+	}
+        //triangle_t triangle = {
+        //        //.points[0].x = 300,
+        //        //.points[0].y = 100,
+        //        //.points[1].x = 50,
+        //        //.points[1].y = 400,
+        //        //.points[2].x = 500,
+        //        //.points[2].y = 700
+        //        
+        //        //.points[0].x = 200,
+        //        //.points[0].y = 200,
+        //        //.points[1].x = 500,
+        //        //.points[1].y = 200,
+        //        //.points[2].x = 300,
+        //        //.points[2].y = 600
+
+        //        //.points[0].x = 300,
+        //        //.points[0].y = 100,
+        //        //.points[1].x = 200,
+        //        //.points[1].y = 400,
+        //        //.points[2].x = 600,
+        //        //.points[2].y = 400
+        //};
+        //draw_triangle(
+        //                (uint32_t)triangle.points[0].x,
+        //                (uint32_t)triangle.points[0].y,
+        //                (uint32_t)triangle.points[1].x,
+        //                (uint32_t)triangle.points[1].y,
+        //                (uint32_t)triangle.points[2].x,
+        //                (uint32_t)triangle.points[2].y,
+        //                0xFF00FF00
+        //             );
+        //draw_filled_triangle(triangle, 0xFF00FF00);
 
 	array_free(triangles_to_render);
 
