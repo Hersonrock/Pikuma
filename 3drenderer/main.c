@@ -201,12 +201,18 @@ void render() {
         //         draw_filled_triangle(triangle, 0xFFC0C0C0);
 	//}
         triangle_t triangle = {
-                .points[0].x = 300,
-                .points[0].y = 100,
-                .points[1].x = 50,
-                .points[1].y = 400,
-                .points[2].x = 500,
-                .points[2].y = 700
+                //.points[0].x = 300,
+                //.points[0].y = 100,
+                //.points[1].x = 50,
+                //.points[1].y = 400,
+                //.points[2].x = 500,
+                //.points[2].y = 700
+                .points[0].x = 200,
+                .points[0].y = 200,
+                .points[1].x = 500,
+                .points[1].y = 200,
+                .points[2].x = 300,
+                .points[2].y = 600
         };
         draw_triangle(
                         (uint32_t)triangle.points[0].x,

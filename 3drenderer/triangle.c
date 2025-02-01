@@ -51,6 +51,7 @@ void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
 
         inv_slope1 = (x1 - x0) / (y1 - y0);
         inv_slope2 = (mid.x - x0) / (mid.y - y0);
+        printf("Slopes [%.2f][%.2f]\n", inv_slope1, inv_slope2);
         float x_start = x0;
         float x_end = x0;
 
@@ -71,6 +72,7 @@ void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color){
 
         inv_slope1 = (x1 - x2) / (y1 - y2);
         inv_slope2 = (mid.x - x2) / (mid.y - y2);
+        printf("Slopes [%.2f][%.2f]\n", inv_slope1, inv_slope2);
         float x_start = x2;
         float x_end = x2;
 
@@ -85,8 +87,25 @@ void draw_filled_triangle(triangle_t triangle, uint32_t color){
         triangle_t t = triangle;
 
         triangle_sort(&t);
+        printf("[%.2f,%.2f][%.2f,%.2f][%.2f,%.2f]\n", t.points[0].x,
+                                                      t.points[0].y,
+                                                      t.points[1].x,
+                                                      t.points[1].y,
+                                                      t.points[2].x,
+                                                      t.points[2].y
+                                                      );
 
-        vect2_t m_point = triangle_m_point(t);
-        fill_flat_bottom_triangle(t, m_point, color);
-        fill_flat_top_triangle(t, m_point, color);
+        if(t.points[0].y == t.points[1].y){
+                printf("Flat top recognized\n");
+                fill_flat_top_triangle(t, t.points[1], color);
+        }else if(t.points[2].y == t.points[1].y){
+                printf("Flat bottom recognized\n");
+                fill_flat_bottom_triangle(t, t.points[1], color);
+        }else {
+                printf("Whole triangle recognized\n");
+                vect2_t m_point = triangle_m_point(t);
+                printf("m_point = [%.2f,%.2f]\n", m_point.x, m_point.y);
+                fill_flat_bottom_triangle(t, m_point, color);
+                fill_flat_top_triangle(t, m_point, color);
+        }
 }
