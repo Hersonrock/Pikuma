@@ -58,7 +58,7 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj1)){
+        if(load_obj(obj3)){
                 is_running = false;
         }
 	//load_cube_mesh_data();
@@ -221,6 +221,13 @@ void render() {
         //        //.points[1].y = 400,
         //        //.points[2].x = 600,
         //        //.points[2].y = 400
+
+        //        .points[0].x = 896.55,
+        //        .points[0].y = 450.80,
+        //        .points[1].x = 875.20,
+        //        .points[1].y = 530.82,
+        //        .points[2].x = 1053.19,
+        //        .points[2].y = 531.03 
         //};
         //draw_triangle(
         //                (uint32_t)triangle.points[0].x,
