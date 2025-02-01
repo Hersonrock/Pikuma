@@ -56,7 +56,6 @@ void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color){
 
         for(int y = y0; y <= mid.y; y++){
                 draw_line(x_start, y, x_end, y, color); 
-                printf("[%.2f,%.2f]\n", inv_slope1, inv_slope2);
                 x_start += inv_slope1;
                 x_end += inv_slope2;
         }
@@ -89,5 +88,5 @@ void draw_filled_triangle(triangle_t triangle, uint32_t color){
 
         vect2_t m_point = triangle_m_point(t);
         fill_flat_bottom_triangle(t, m_point, color);
-        //fill_flat_top_triangle(t, m_point, color);
+        fill_flat_top_triangle(t, m_point, color);
 }
