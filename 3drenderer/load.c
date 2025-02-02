@@ -44,7 +44,9 @@ int read_file(FILE *obj_file){
                         sscanf_s(buffer, "v %f %f %f", &vertex.x,
                                                   &vertex.y,
                                                   &vertex.z);
-                        print_debug((void *)&vertex, "vect3_t");
+                        ///////DEBUG//////
+                        //print_debug((void *)&vertex, "vect3_t");
+                        /////////////////
 
                         vertex = vect3_div(vertex, FACTOR);
                         array_push(obj_vertices, vertex);
@@ -70,11 +72,15 @@ int read_file(FILE *obj_file){
                         faces.b = vertex_indices[1];
                         faces.c = vertex_indices[2];
 
-                        print_debug((void *)&faces, "face_t");
+                        ///////DEBUG//////
+                        //print_debug((void *)&faces, "face_t");
+                        /////////////////
                         array_push(obj_faces, faces);
                         continue;
                 }
-                printf("No matching line: %s\n", buffer);
+                ////////DEBUG////////
+                //printf("No matching line: %s\n", buffer);
+                ////////////////////
         }
         
         return 0;

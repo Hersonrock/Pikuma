@@ -64,7 +64,8 @@ void load_obj_mesh_data(vect3_t *vertices, face_t *faces){
                 face_t cube_face = faces[i];
                 array_push(mesh.faces, cube_face);
         }
-        // DEBUG
+        /////////DEBUG///////////
         printf("n_vertices: %d\n", array_length(mesh.vertices));
         printf("n_faces: %d\n", array_length(mesh.faces));
+        ////////////////////////
 }
