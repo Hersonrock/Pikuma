@@ -5,10 +5,21 @@
 #include "load.h"
 #include "test.h"
 
+/// COLORS
+typedef enum{
+        RED = 0xFFFF0000,
+        GREEN = 0xFF00FF00,
+        BLUE = 0xFF0000FF,
+        GREY = 0xFFC0C0C0,
+        BLACK = 0xFF000000,
+        WHITE = 0xFFFFFFFF
+}color_t;
+///
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
 const char *obj2 = "f22.obj";
 const char *obj3 = "WPveil.obj";
+const char *obj4 = "WPABinder.obj";
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
@@ -66,7 +77,7 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj3)){
+        if(load_obj(obj4)){
                 is_running = false;
         }
 	//load_cube_mesh_data();
@@ -230,7 +241,7 @@ void render() {
                                 rect.y = (uint32_t)triangle.points[j].y;
                                 rect.w = 3;
                                 rect.h = 3;
-                                draw_rect(rect, 0xFFFF0000);
+                                draw_rect(rect, RED);
                         }
                 }
                 if(wireframe_mode1 || wireframe_mode2 || fill_wireframe_mode){
@@ -241,19 +252,19 @@ void render() {
                                         (uint32_t)triangle.points[1].y,
                                         (uint32_t)triangle.points[2].x,
                                         (uint32_t)triangle.points[2].y,
-                                        0xFF00FF00
+                                        GREEN
                                      );
                 }
 
                  if(fill_mode || fill_wireframe_mode){
-                         draw_filled_triangle(triangle, 0xFFC0C0C0);
+                         draw_filled_triangle(triangle, GREY);
                  }
 	}
 
 	array_free(triangles_to_render);
 
 	render_color_buffer();
-	clear_color_buffer(0xFF000000);
+	clear_color_buffer(BLACK);
 
 	SDL_RenderPresent(renderer);
 }
