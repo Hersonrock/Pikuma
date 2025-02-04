@@ -4,6 +4,7 @@
 #include "array.h"
 #include "string.h"
 #include "vector.h"
+#include "display.h"
 
 int load_obj(const char *obj_path){
         FILE* obj_file;
@@ -31,6 +32,7 @@ FILE *open_file(const char *file_path,char *mode){
 }
 int read_file(FILE *obj_file){
         char buffer[MAX_LINE_SIZE];
+        int color_set = 0;
 
         printf("Reading file...\n");
         while(fgets(buffer, sizeof(buffer), obj_file)){
@@ -71,6 +73,19 @@ int read_file(FILE *obj_file){
                         faces.a = vertex_indices[0];
                         faces.b = vertex_indices[1];
                         faces.c = vertex_indices[2];
+                        switch(color_set++){
+                                case 0:
+                                        faces.color = RED;
+                                        break;
+                                case 1:
+                                        faces.color = GREEN;
+                                        break;
+                                case 2:
+                                        faces.color = BLUE;
+                                        break;
+                        }
+
+                        if(color_set > 2) color_set = 0;
 
                         ///////DEBUG//////
                         //print_debug((void *)&faces, "face_t");

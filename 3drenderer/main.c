@@ -5,15 +5,6 @@
 #include "load.h"
 #include "test.h"
 
-/// COLORS
-typedef enum{
-        RED = 0xFFFF0000,
-        GREEN = 0xFF00FF00,
-        BLUE = 0xFF0000FF,
-        GREY = 0xFFC0C0C0,
-        BLACK = 0xFF000000,
-        WHITE = 0xFFFFFFFF
-}color_t;
 ///
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
@@ -184,8 +175,6 @@ void update(void) {
 		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
 		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
-		triangle_t projected_triangle;
-
                 vect3_t transformed_vertex[3];
                 for (size_t j = 0; j < 3; j++) {
                         transformed_vertex[j] = face_vertices[j];
@@ -212,16 +201,25 @@ void update(void) {
                         if(vect3_dot(normal, camera_ray) < 0) continue;
                 }
 
+                vect2_t projected_point[3];
+
                 for (size_t j = 0; j < 3; j++) {
-			vect2_t projected_point = project_point(
+			projected_point[j] = project_point(
                                                         transformed_vertex[j]);
 			
-			projected_point.x += (window_width / 2);
-			projected_point.y += (window_height / 2);
-
-
-			projected_triangle.points[j] = projected_point;
+			projected_point[j].x += (window_width / 2);
+			projected_point[j].y += (window_height / 2);
 		}
+
+                triangle_t projected_triangle = {
+                        .points = {
+                                {projected_point[0].x, projected_point[0].y},
+                                {projected_point[1].x, projected_point[1].y},
+                                {projected_point[2].x, projected_point[2].y},
+                        },
+                        .color = mesh_face.color
+                };
+
 		array_push(triangles_to_render, projected_triangle);
 	}
 }
@@ -257,7 +255,7 @@ void render() {
                 }
 
                  if(fill_mode || fill_wireframe_mode){
-                         draw_filled_triangle(triangle, GREY);
+                         draw_filled_triangle(triangle, triangle.color);
                  }
 	}
 

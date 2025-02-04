@@ -8,10 +8,12 @@
 
 typedef struct {
 	uint32_t a, b, c;
+        uint32_t color;
 }face_t;
 
 typedef  struct {
 	vect2_t points[3];
+        uint32_t color;
 }triangle_t;
 /////////////////TRIANGLE////////
 vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3);

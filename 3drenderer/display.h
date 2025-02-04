@@ -5,6 +5,16 @@
 #include <stdint.h>
 #include <SDL.h>
 
+/// COLORS
+typedef enum{
+        RED = 0xFFFF0000,
+        GREEN = 0xFF00FF00,
+        BLUE = 0xFF0000FF,
+        GREY = 0xFFC0C0C0,
+        BLACK = 0xFF000000,
+        WHITE = 0xFFFFFFFF
+}color_t;
+
 typedef struct rect {
 	uint32_t x;
 	uint32_t y;
