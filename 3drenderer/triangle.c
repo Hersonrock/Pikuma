@@ -8,7 +8,7 @@ vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3){
         
         return normal;
 }
-void triangle_sort(triangle_t *t){
+void triangle_vector_sort(triangle_t *t){
        vect2_t v0, v1, v2;
 
        v0 = t->points[0];
@@ -78,7 +78,7 @@ void fill_flat_top_triangle(float x1, float y1,
 }
 void draw_filled_triangle(triangle_t triangle, uint32_t color){
         triangle_t t = triangle;
-        triangle_sort(&t);
+        triangle_vector_sort(&t);
         int x0 = t.points[0].x;
         int y0 = t.points[0].y;
         int x1 = t.points[1].x;
@@ -96,4 +96,24 @@ void draw_filled_triangle(triangle_t triangle, uint32_t color){
                 fill_flat_bottom_triangle(x0, y0, x1, y1, m_point, color);
                 fill_flat_top_triangle(x1, y1, x2, y2, m_point, color);
         }
+}
+void swap_triangle(triangle_t *t1, triangle_t *t2){
+        triangle_t temp = *t1;
+
+        *t1 = *t2;
+        *t2 = temp;
+}
+void triangle_depth_sort(triangle_t *triangles){
+        bool swap_made = false;
+        int size = array_length(triangles);
+        
+        do{
+                swap_made = false;
+                for(int i = 0; i < size - 1; i++){
+                        if(triangles[i].avg_depth < triangles[i + 1].avg_depth){
+                                swap_triangle(&triangles[i],&triangles[i + 1]);
+                                swap_made = true;
+                        }
+                }
+        }while(swap_made);
 }

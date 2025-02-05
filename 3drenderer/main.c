@@ -211,17 +211,24 @@ void update(void) {
 			projected_point[j].y += (window_height / 2);
 		}
 
+                float avg_depth;
+                avg_depth = (transformed_vertex[0].z +
+                            transformed_vertex[1].z +
+                            transformed_vertex[2].z) / 3;
+
                 triangle_t projected_triangle = {
                         .points = {
                                 {projected_point[0].x, projected_point[0].y},
                                 {projected_point[1].x, projected_point[1].y},
                                 {projected_point[2].x, projected_point[2].y},
                         },
-                        .color = mesh_face.color
+                        .color = mesh_face.color,
+                        .avg_depth = avg_depth
                 };
 
 		array_push(triangles_to_render, projected_triangle);
 	}
+        triangle_depth_sort(triangles_to_render);
 }
 
 void render() {
@@ -232,7 +239,7 @@ void render() {
 	uint32_t num_triangles = array_length(triangles_to_render);
 	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
-
+                printf("T.depth= %.2f\n", triangle.avg_depth);
                 if(wireframe_mode1){
                         for(int j = 0; j < 3; j++){
                                 rect.x = (uint32_t)triangle.points[j].x;

@@ -14,6 +14,7 @@ typedef struct {
 typedef  struct {
 	vect2_t points[3];
         uint32_t color;
+        float avg_depth;
 }triangle_t;
 /////////////////TRIANGLE////////
 vect3_t triangle_normal(vect3_t v1, vect3_t v2, vect3_t v3);
@@ -23,4 +24,5 @@ vect2_t triangle_m_point(triangle_t t);
 void fill_flat_bottom_triangle(triangle_t t, vect2_t mid, uint32_t color);
 void fill_flat_top_triangle(triangle_t t, vect2_t mid, uint32_t color);
 void draw_filled_triangle(triangle_t triangle, uint32_t color);
+void triangle_depth_sort(triangle_t *triangles);
 #endif //TRIANGLE
