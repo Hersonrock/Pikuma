@@ -239,7 +239,6 @@ void render() {
 	uint32_t num_triangles = array_length(triangles_to_render);
 	for (size_t i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
-                printf("T.depth= %.2f\n", triangle.avg_depth);
                 if(wireframe_mode1){
                         for(int j = 0; j < 3; j++){
                                 rect.x = (uint32_t)triangle.points[j].x;
