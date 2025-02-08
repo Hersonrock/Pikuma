@@ -148,7 +148,7 @@ vect2_t project_point(vect3_t point) {
 	return projected_point;
 }
 
-void update(void) {
+void frame_time_control(void){
 	uint32_t time_to_wait = FRAME_TARGET_TIME -
                                   (SDL_GetTicks() - 
                                 previous_frame_time);
@@ -158,11 +158,14 @@ void update(void) {
 	}
 
 	previous_frame_time = SDL_GetTicks();
+}
 
+void update(void) {
+
+        frame_time_control();
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
-	uint32_t num_faces = array_length(mesh.faces);
-	for (size_t i = 0; i < num_faces; i++) {
+	for (size_t i = 0; i < array_length(mesh.faces); i++) {
 		face_t mesh_face = mesh.faces[i];
 		vect3_t face_vertices[3];
 		face_vertices[0] = mesh.vertices[mesh_face.a - 1];
@@ -172,16 +175,9 @@ void update(void) {
                 vect3_t transformed_vertex[3];
                 for (size_t j = 0; j < 3; j++) {
                         transformed_vertex[j] = face_vertices[j];
-                        transformed_vertex[j] = vec3_rotate_x(
-                                                      transformed_vertex[j],
-                                                      mesh.rotation.x);
-                        transformed_vertex[j] = vec3_rotate_y(
-                                                      transformed_vertex[j],
-                                                      mesh.rotation.y);
-                        transformed_vertex[j] = vec3_rotate_z(
-                                                      transformed_vertex[j],
-                                                      mesh.rotation.z);
-
+                        vect3_rotate_x(&transformed_vertex[j], mesh.rotation.x);
+                        vect3_rotate_y(&transformed_vertex[j], mesh.rotation.y);
+                        vect3_rotate_z(&transformed_vertex[j], mesh.rotation.z);
                         transformed_vertex[j].z += 5;
                 }
                 //Face culling

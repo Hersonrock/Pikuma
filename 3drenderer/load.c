@@ -85,7 +85,6 @@ int read_file(FILE *obj_file, vect3_t **in_vertices, face_t **in_faces){
         
         return 0;
 }
-
 void print_debug(void *obj, char *type) {
     if (strcmp(type, "face_t") == 0) {
         face_t face = *(face_t *)obj; // Dereference the casted pointer

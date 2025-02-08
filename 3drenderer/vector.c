@@ -1,31 +1,25 @@
 #include "vector.h"
 
-vect3_t vec3_rotate_x(vect3_t v, float angle){
-	vect3_t rotated_vector = {
-		.x = v.x,
-		.y = v.y * cos(angle) - v.z * sin(angle),
-		.z = v.y * sin(angle) + v.z * cos(angle)
-	};
+void vect3_rotate_x(vect3_t *v, float angle){
+        float y = v->y;
+        float z = v->z;
 
-	return rotated_vector;
+        v->y = y * cos(angle) - z * sin(angle);
+        v->z = y * sin(angle) + z * cos(angle);
 }
-vect3_t vec3_rotate_y(vect3_t v, float angle) {
-	vect3_t rotated_vector = {
-		.x = v.x * cos(angle) - v.z * sin(angle),
-		.y = v.y,
-		.z = v.x * sin(angle) + v.z * cos(angle)
-	};
+void vect3_rotate_y(vect3_t *v, float angle) {
+        float x = v->x;
+        float z = v->z;
 
-	return rotated_vector;
+        v->x = x * cos(angle) - z * sin(angle);
+        v->z = x * sin(angle) + z * cos(angle);
 }
-vect3_t vec3_rotate_z(vect3_t v, float angle) {
-	vect3_t rotated_vector = {
-		.x = v.x * cos(angle) - v.y * sin(angle),
-		.y = v.x * sin(angle) + v.y * cos(angle),
-		.z = v.z
-	};
+void vect3_rotate_z(vect3_t *v, float angle) {
+        float x = v->x;
+        float y = v->y;
 
-	return rotated_vector;
+        v->x = x * cos(angle) - y * sin(angle);
+        v->y = x * sin(angle) + y * cos(angle);
 }
 
 
