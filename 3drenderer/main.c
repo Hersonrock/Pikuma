@@ -5,17 +5,16 @@
 #include "load.h"
 #include "test.h"
 
-///
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
 const char *obj2 = "f22.obj";
 const char *obj3 = "WPveil.obj";
 const char *obj4 = "WPABinder.obj";
+
 /// TIME
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
 uint32_t previous_frame_time = 0;
-/// 
 
 //RENDER MODES CONTROL
 bool wireframe_mode1 = true;
@@ -23,18 +22,14 @@ bool wireframe_mode2 = false;
 bool fill_mode = false;
 bool fill_wireframe_mode = false;
 bool face_culling_mode = false;
-//
 
 /// GAME LOOP
 bool is_running = false;
-///
 
 /// TRIANGLE , ROTATION &  PROJECTION
 triangle_t* triangles_to_render = NULL; 
-//vect3_t cube_rotation = {0};  
 vect3_t camera_position = { .x = 0, .y = 0, .z = 0};
 float fov_factor = 320;
-/// 
 
 /// DISPLAY & BUFFER
 uint32_t window_width = 0;
@@ -43,7 +38,6 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* color_buffer_texture = NULL;
 uint32_t* color_buffer = NULL;
-/// 
 
 void setup(void) {
 	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) *
@@ -74,6 +68,7 @@ void setup(void) {
 	//load_cube_mesh_data();
         load_obj_mesh_data(obj_vertices, obj_faces);
 }
+
 void process_input(void) {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -278,6 +273,7 @@ void free_resources(void) {
 	array_free(mesh.faces);
 	array_free(mesh.vertices);
 }
+
 #ifdef RUN_TESTS
 int main(int argc, char* argv[]) {
         printf("Running tests...\n");
