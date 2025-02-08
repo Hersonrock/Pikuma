@@ -62,7 +62,7 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj4)){
+        if(load_obj(obj4, &obj_vertices, &obj_faces)){
                 is_running = false;
         }
         load_obj_mesh_data(obj_vertices, obj_faces);

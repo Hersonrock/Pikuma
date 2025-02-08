@@ -1,19 +1,13 @@
 #include "load.h"
-#include "errno.h"
-#include "mesh.h"
-#include "array.h"
-#include "string.h"
-#include "vector.h"
-#include "display.h"
 
-int load_obj(const char *obj_path){
+int load_obj(const char *obj_path, vect3_t **in_vertices, face_t **in_faces){
         FILE* obj_file;
         obj_file = open_file(obj_path,"r"); 
         if(obj_file != NULL){
         } else {
                 return 1;
         }
-        read_file(obj_file);
+        read_file(obj_file, in_vertices, in_faces);
         fclose(obj_file);
         return 0;
 }
@@ -30,13 +24,13 @@ FILE *open_file(const char *file_path,char *mode){
         
         return fd;
 }
-int read_file(FILE *obj_file){
+int read_file(FILE *obj_file, vect3_t **in_vertices, face_t **in_faces){
         char buffer[MAX_LINE_SIZE];
         int color_set = 0;
 
-        printf("Reading file...\n");
+        printf("reading file...\n");
         while(fgets(buffer, sizeof(buffer), obj_file)){
-                // Remove trailing newline and carriage return
+                // remove trailing newline and carriage return
                 buffer[strcspn(buffer, "\r\n")] = '\0';
                 if (buffer[0] == '\0') {
                         continue;
@@ -48,7 +42,7 @@ int read_file(FILE *obj_file){
                                                   &vertex.z);
 
                         vertex = vect3_div(vertex, FACTOR);
-                        array_push(obj_vertices, vertex);
+                        array_push(*in_vertices, vertex);
                         continue;
                 }
 
@@ -84,7 +78,7 @@ int read_file(FILE *obj_file){
 
                         if(color_set > 2) color_set = 0;
 
-                        array_push(obj_faces, faces);
+                        array_push(*in_faces, faces);
                         continue;
                 }
         }
