@@ -46,9 +46,6 @@ int read_file(FILE *obj_file){
                         sscanf_s(buffer, "v %f %f %f", &vertex.x,
                                                   &vertex.y,
                                                   &vertex.z);
-                        ///////DEBUG//////
-                        //print_debug((void *)&vertex, "vect3_t");
-                        /////////////////
 
                         vertex = vect3_div(vertex, FACTOR);
                         array_push(obj_vertices, vertex);
@@ -87,15 +84,9 @@ int read_file(FILE *obj_file){
 
                         if(color_set > 2) color_set = 0;
 
-                        ///////DEBUG//////
-                        //print_debug((void *)&faces, "face_t");
-                        /////////////////
                         array_push(obj_faces, faces);
                         continue;
                 }
-                ////////DEBUG////////
-                //printf("No matching line: %s\n", buffer);
-                ////////////////////
         }
         
         return 0;

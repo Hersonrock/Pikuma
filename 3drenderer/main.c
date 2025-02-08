@@ -32,7 +32,7 @@ vect3_t camera_position = { .x = 0, .y = 0, .z = 0};
 float fov_factor = 320;
 
 /// DISPLAY & BUFFER
-uint32_t window_width = 0;
+int32_t window_width = 0;
 uint32_t window_height = 0;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -65,7 +65,6 @@ void setup(void) {
         if(load_obj(obj4)){
                 is_running = false;
         }
-	//load_cube_mesh_data();
         load_obj_mesh_data(obj_vertices, obj_faces);
 }
 
