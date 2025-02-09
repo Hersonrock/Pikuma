@@ -19,6 +19,7 @@ void run_all_tests(){
         test_vect3_div();
         test_vect3_dot();
         test_vect3_cross();
+        test_mat4_multiply();
 }
 ///////VECTOR 2D TESTS/////
 void test_vect2_length(){
@@ -138,4 +139,42 @@ void test_vect3_cross(){
         assert(fabsf(cross.y - (-10)) < TOLERANCE);
         assert(fabsf(cross.z - (-14)) < TOLERANCE);
         printf("\ttest_vect3_cross passed!\n");
+}
+////MATRIX 
+void test_mat4_multiply(){
+        mat4_t a = {
+                .m[0][0] = 9, .m[0][1] = 4, .m[0][2] = 2, .m[0][3] = 8,
+                .m[1][0] = 2, .m[1][1] = 2, .m[1][2] = 0, .m[1][3] = 7,
+                .m[2][0] = 5, .m[2][1] = 8, .m[2][2] = 5, .m[2][3] = 7,
+                .m[3][0] = 9, .m[3][1] = 4, .m[3][2] = 8, .m[3][3] = 9
+        };
+        mat4_t b = {
+                .m[0][0] = 1, .m[0][1] = 9, .m[0][2] = 2, .m[0][3] = 3,
+                .m[1][0] = 9, .m[1][1] = 1, .m[1][2] = 4, .m[1][3] = 0,
+                .m[2][0] = 2, .m[2][1] = 2, .m[2][2] = 3, .m[2][3] = 0,
+                .m[3][0] = 0, .m[3][1] = 6, .m[3][2] = 6, .m[3][3] = 0
+        };
+
+        mat4_t c = mat4_multiply(a, b);
+        assert(c.m[0][0] == 49);
+        assert(c.m[0][1] == 137);
+        assert(c.m[0][2] == 88);
+        assert(c.m[0][3] == 27);
+
+        assert(c.m[1][0] == 20);
+        assert(c.m[1][1] == 62);
+        assert(c.m[1][2] == 54);
+        assert(c.m[1][3] == 6);
+
+        assert(c.m[2][0] == 87);
+        assert(c.m[2][1] == 105);
+        assert(c.m[2][2] == 99);
+        assert(c.m[2][3] == 15);
+
+        assert(c.m[3][0] == 61);
+        assert(c.m[3][1] == 155);
+        assert(c.m[3][2] == 112);
+        assert(c.m[3][3] == 27);
+        printf("\ttest_mat4_multiply passed!\n");
+
 }

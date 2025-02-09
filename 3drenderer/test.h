@@ -2,6 +2,7 @@
 #include <float.h>
 #include <math.h>
 #include "vector.h"
+#include "matrix.h"
 
 #define TOLERANCE  0.001
 
@@ -24,3 +25,4 @@ void test_vect3_div();
 void test_vect3_dot();
 void test_vect3_cross();
 
+void test_mat4_multiply();
