@@ -168,15 +168,13 @@ void update(void) {
         //From Mesh getting faces to then get vertices
 	for (size_t i = 0; i < array_length(mesh.faces); i++) {
 		face_t mesh_face = mesh.faces[i];
-		vect3_t face_vertices[3];
-		face_vertices[0] = mesh.vertices[mesh_face.a - 1];
-		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
-		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
+		vect3_t transformed_vertex[3];
+	        transformed_vertex[0] = mesh.vertices[mesh_face.a - 1];
+		transformed_vertex[1] = mesh.vertices[mesh_face.b - 1];
+		transformed_vertex[2] = mesh.vertices[mesh_face.c - 1];
 
-                //Rotating vertices
-                vect3_t transformed_vertex[3];
+                //Rotating vertices TODO MATRIX
                 for (size_t j = 0; j < 3; j++) {
-                        transformed_vertex[j] = face_vertices[j];
                         vect3_rotate_x(&transformed_vertex[j], mesh.rotation.x);
                         vect3_rotate_y(&transformed_vertex[j], mesh.rotation.y);
                         vect3_rotate_z(&transformed_vertex[j], mesh.rotation.z);
@@ -198,7 +196,7 @@ void update(void) {
                 }
 
                 //Preparing points for Triangle creation
-                //Perspective Projection and Translation
+                //Perspective Projection and Translation TODO MATRIX
                 vect2_t projected_point[3];
                 for (size_t j = 0; j < 3; j++) {
                         vect3_t point = transformed_vertex[j];
@@ -256,10 +254,9 @@ void render() {
                                         GREEN
                                      );
                 }
-
-                 if(fill_mode || fill_wireframe_mode){
-                         draw_filled_triangle(triangle, triangle.color);
-                 }
+                if(fill_mode || fill_wireframe_mode){
+                        draw_filled_triangle(triangle, triangle.color);
+                }
 	}
 
 	array_free(triangles_to_render);

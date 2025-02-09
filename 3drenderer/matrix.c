@@ -1,5 +1,9 @@
 #include "matrix.h"
 
+//typedef struct {
+//        float m[4][4];
+//} mat4_t;
+
 mat4_t mat4_identity(void){
         // | 1 0 0 0|
         // | 0 1 0 0|
