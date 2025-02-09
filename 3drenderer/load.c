@@ -41,7 +41,10 @@ int read_file(FILE *obj_file, vect3_t **in_vertices, face_t **in_faces){
                                                   &vertex.y,
                                                   &vertex.z);
 
+                        //Workaround for model sizes. Better solution Pending
                         vertex = vect3_div(vertex, FACTOR);
+                        //Correcting for handness choseen
+                        vertex.y *= -1;
                         array_push(*in_vertices, vertex);
                         continue;
                 }
