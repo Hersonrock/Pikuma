@@ -6,7 +6,9 @@ face_t *obj_faces = NULL;
 mesh_t mesh = {
     .vertices = NULL,
     .faces = NULL,
-    .rotation = {0, 0, 0}
+    .rotation = {0, 0, 0},
+    .scale = {1.0f, 1.0f, 1.0f},
+    .translation = {0, 0, 0}
 };
 
 void load_obj_mesh_data(vect3_t *vertices, face_t *faces){

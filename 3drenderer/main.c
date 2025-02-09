@@ -139,13 +139,12 @@ void process_input(void) {
 	}
 }
 
-vect2_t project_point(vect3_t point) {
-	vect2_t projected_point = {
-		.x = (point.x * fov_factor) / (point.z),
-		.y = (point.y * fov_factor) / (point.z)
-	};
-
-	return projected_point;
+vect2_t project_point(vect3_t *in_point) {
+        
+        vect2_t point;
+        point.x = (in_point->x * fov_factor) / (in_point->z);
+        point.y = (in_point->y * fov_factor) / (in_point->z);
+        return point;
 }
 
 void frame_time_control(void){
@@ -163,8 +162,10 @@ void frame_time_control(void){
 void update(void) {
 
         frame_time_control();
+
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
+        //From Mesh getting faces to then get vertices
 	for (size_t i = 0; i < array_length(mesh.faces); i++) {
 		face_t mesh_face = mesh.faces[i];
 		vect3_t face_vertices[3];
@@ -172,6 +173,7 @@ void update(void) {
 		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
 		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
+                //Rotating vertices
                 vect3_t transformed_vertex[3];
                 for (size_t j = 0; j < 3; j++) {
                         transformed_vertex[j] = face_vertices[j];
@@ -180,32 +182,38 @@ void update(void) {
                         vect3_rotate_z(&transformed_vertex[j], mesh.rotation.z);
                         transformed_vertex[j].z += 5;
                 }
+
                 //Face culling
                 if(face_culling_mode){
                         vect3_t normal = triangle_normal(transformed_vertex[0],
-                                        transformed_vertex[1],
-                                        transformed_vertex[2]);
+                                                         transformed_vertex[1],
+                                                         transformed_vertex[2]);
+                        //Vector from camera to vertex
                         vect3_t camera_ray = vect3_sub(camera_position,
                                         transformed_vertex[0]);
 
-                        if(vect3_dot(normal, camera_ray) < 0) continue;
+                        //Skip triangle creation 
+                        //if face if facing away from camera
+                        if(vect3_dot(normal, camera_ray) <= 0) continue;
                 }
 
+                //Preparing points for Triangle creation
+                //Perspective Projection and Translation
                 vect2_t projected_point[3];
-
                 for (size_t j = 0; j < 3; j++) {
-			projected_point[j] = project_point(
-                                                        transformed_vertex[j]);
-			
+                        vect3_t point = transformed_vertex[j];
+			projected_point[j] = project_point(&point);
 			projected_point[j].x += (window_width / 2);
 			projected_point[j].y += (window_height / 2);
 		}
 
-                float avg_depth;
-                avg_depth = (transformed_vertex[0].z +
-                            transformed_vertex[1].z +
-                            transformed_vertex[2].z) / 3;
+                //Preparation for Painters algorithm
+                float avg_depth = (transformed_vertex[0].z +
+                                   transformed_vertex[1].z +
+                                   transformed_vertex[2].z) / 3;
 
+                //Preparing for rendering
+                //Triangle is the object of interest of rendering
                 triangle_t projected_triangle = {
                         .points = {
                                 {projected_point[0].x, projected_point[0].y},
@@ -215,7 +223,6 @@ void update(void) {
                         .color = mesh_face.color,
                         .avg_depth = avg_depth
                 };
-
 		array_push(triangles_to_render, projected_triangle);
 	}
         triangle_depth_sort(triangles_to_render);
