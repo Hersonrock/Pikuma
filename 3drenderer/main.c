@@ -4,6 +4,7 @@
 #include "array.h"
 #include "load.h"
 #include "test.h"
+#include "matrix.h"
 
 /// Object(.obj) files
 const char *obj1 = "cube.obj";
@@ -62,7 +63,7 @@ void setup(void) {
                 is_running = false;
 	}
 
-        if(load_obj(obj4, &obj_vertices, &obj_faces)){
+        if(load_obj(obj1, &obj_vertices, &obj_faces)){
                 is_running = false;
         }
         load_obj_mesh_data(obj_vertices, obj_faces);
@@ -132,6 +133,34 @@ void process_input(void) {
                 if(event.key.keysym.sym == SDLK_c){
                         face_culling_mode = !face_culling_mode;
                 }
+                if(event.key.keysym.sym == SDLK_q){
+                        mesh.scale.x += 0.02;
+                        mesh.scale.y += 0.02;
+                        mesh.scale.z += 0.02;
+                }
+                if(event.key.keysym.sym == SDLK_e){
+                        mesh.scale.x -= 0.02;
+                        mesh.scale.y -= 0.02;
+                        mesh.scale.z -= 0.02;
+                }
+                if(event.key.keysym.sym == SDLK_w){
+                        mesh.translation.y -= 0.1f;
+                }
+                if(event.key.keysym.sym == SDLK_a){
+                        mesh.translation.x -= 0.1f;
+                }
+                if(event.key.keysym.sym == SDLK_s){
+                        mesh.translation.y += 0.1f;
+                }
+                if(event.key.keysym.sym == SDLK_d){
+                        mesh.translation.x += 0.1f;
+                }
+                if(event.key.keysym.sym == SDLK_z){
+                        mesh.translation.z += 0.1f;
+                }
+                if(event.key.keysym.sym == SDLK_x){
+                        mesh.translation.z -= 0.1f;
+                }
 		break;
 
 	default:
@@ -163,22 +192,41 @@ void update(void) {
 
         frame_time_control();
 
+
+        mat4_t scale_matrix = mat4_make_scale(mesh.scale.x,
+                                              mesh.scale.y,
+                                              mesh.scale.z);
+        mat4_t translation_matrix = mat4_make_translation(mesh.translation.x,
+                                                          mesh.translation.y,
+                                                          mesh.translation.z);
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
         //From Mesh getting faces to then get vertices
 	for (size_t i = 0; i < array_length(mesh.faces); i++) {
 		face_t mesh_face = mesh.faces[i];
-		vect3_t transformed_vertex[3];
-	        transformed_vertex[0] = mesh.vertices[mesh_face.a - 1];
-		transformed_vertex[1] = mesh.vertices[mesh_face.b - 1];
-		transformed_vertex[2] = mesh.vertices[mesh_face.c - 1];
+		vect3_t face_vertices[3];
+	        face_vertices[0] = mesh.vertices[mesh_face.a - 1];
+		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
+		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
+                vect4_t transformed_vertex4[3];
+                vect3_t transformed_vertex[3];
                 //Rotating vertices TODO MATRIX
                 for (size_t j = 0; j < 3; j++) {
-                        vect3_rotate_x(&transformed_vertex[j], mesh.rotation.x);
-                        vect3_rotate_y(&transformed_vertex[j], mesh.rotation.y);
-                        vect3_rotate_z(&transformed_vertex[j], mesh.rotation.z);
-                        transformed_vertex[j].z += 5;
+                        transformed_vertex4[j] = vec4_from_vec3(face_vertices[j]);
+                       // vect3_rotate_x(&transformed_vertex4[j], mesh.rotation.x);
+                       // vect3_rotate_y(&transformed_vertex4[j], mesh.rotation.y);
+                       // vect3_rotate_z(&transformed_vertex4[j], mesh.rotation.z);
+                        transformed_vertex4[j] = mat4_mul_vec4(scale_matrix,
+                                                          transformed_vertex4[j]);
+                        //translate the vertex away from camera.
+                        transformed_vertex4[j] = mat4_mul_vec4(translation_matrix,
+                                                          transformed_vertex4[j]);
+
+
+                        ////Going back tom Vect3////
+                        transformed_vertex[j] = vec3_from_vec4(transformed_vertex4[j]);
+                        //transformed_vertex[j].z += 5;
                 }
 
                 //Face culling

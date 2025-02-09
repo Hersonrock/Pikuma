@@ -132,3 +132,21 @@ vect3_t vect3_cross(vect3_t v1, vect3_t v2){
 void vect3_normalize(vect3_t *v){
         *v = vect3_div(*v, vect3_length(*v));
 }
+vect4_t vec4_from_vec3(vect3_t v){
+        vect4_t out;
+
+        out.x = v.x;
+        out.y = v.y;
+        out.z = v.z;
+        out.w = 1;
+
+        return out;
+}
+vect3_t vec3_from_vec4(vect4_t v){
+        vect3_t out;
+        out.x = v.x;
+        out.y = v.y;
+        out.z = v.z;
+
+        return out;
+}

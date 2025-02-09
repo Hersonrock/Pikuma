@@ -13,6 +13,13 @@ typedef struct {
 	float z;
 }vect3_t;
 
+typedef struct {
+	float x;
+	float y;
+	float z;
+	float w;
+}vect4_t;
+
 void vect3_rotate_x(vect3_t *v, float angle);
 void vect3_rotate_y(vect3_t *v, float angle);
 void vect3_rotate_z(vect3_t *v, float angle);
@@ -34,5 +41,10 @@ vect3_t vect3_div(vect3_t v, float factor);
 float vect3_dot(vect3_t v1, vect3_t v2);
 vect3_t vect3_cross(vect3_t v1, vect3_t v2);
 void vect3_normalize(vect3_t *v);
+/////////////////////VECTOR 4D//////////////////
+/// Conversion
+vect4_t vec4_from_vec3(vect3_t v);
+vect3_t vec3_from_vec4(vect4_t v);
+
 
 #endif //VECTOR
