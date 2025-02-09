@@ -192,6 +192,7 @@ void update(void) {
 
         frame_time_control();
 
+        mesh.translation.z = 5;
 
         mat4_t scale_matrix = mat4_make_scale(mesh.scale.x,
                                               mesh.scale.y,
@@ -199,6 +200,11 @@ void update(void) {
         mat4_t translation_matrix = mat4_make_translation(mesh.translation.x,
                                                           mesh.translation.y,
                                                           mesh.translation.z);
+
+        mat4_t rotation_matrix_x = mat4_make_rotation_x(mesh.rotation.x);
+        mat4_t rotation_matrix_y = mat4_make_rotation_y(mesh.rotation.y);
+        mat4_t rotation_matrix_z = mat4_make_rotation_z(mesh.rotation.z);
+
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
         //From Mesh getting faces to then get vertices
@@ -209,24 +215,24 @@ void update(void) {
 		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
 		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
-                vect4_t transformed_vertex4[3];
                 vect3_t transformed_vertex[3];
                 //Rotating vertices TODO MATRIX
                 for (size_t j = 0; j < 3; j++) {
-                        transformed_vertex4[j] = vec4_from_vec3(face_vertices[j]);
-                       // vect3_rotate_x(&transformed_vertex4[j], mesh.rotation.x);
-                       // vect3_rotate_y(&transformed_vertex4[j], mesh.rotation.y);
-                       // vect3_rotate_z(&transformed_vertex4[j], mesh.rotation.z);
-                        transformed_vertex4[j] = mat4_mul_vec4(scale_matrix,
-                                                          transformed_vertex4[j]);
+                        vect4_t vertex;
+                        vertex = vec4_from_vec3(face_vertices[j]);
+                        vertex = mat4_mul_vec4(scale_matrix, vertex);
+
+                        //Rotating vertex
+                        vertex = mat4_mul_vec4(rotation_matrix_x, vertex);
+                        vertex = mat4_mul_vec4(rotation_matrix_y, vertex);
+                        vertex = mat4_mul_vec4(rotation_matrix_z, vertex);
+
                         //translate the vertex away from camera.
-                        transformed_vertex4[j] = mat4_mul_vec4(translation_matrix,
-                                                          transformed_vertex4[j]);
+                        vertex = mat4_mul_vec4(translation_matrix, vertex);
 
-
+                        
                         ////Going back tom Vect3////
-                        transformed_vertex[j] = vec3_from_vec4(transformed_vertex4[j]);
-                        //transformed_vertex[j].z += 5;
+                        transformed_vertex[j] = vec3_from_vec4(vertex);
                 }
 
                 //Face culling
