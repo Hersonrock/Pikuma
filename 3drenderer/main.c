@@ -205,6 +205,14 @@ void update(void) {
         mat4_t rotation_matrix_y = mat4_make_rotation_y(mesh.rotation.y);
         mat4_t rotation_matrix_z = mat4_make_rotation_z(mesh.rotation.z);
 
+        mat4_t world_matrix = mat4_identity();
+        //order matters scale> rotation> translation
+        world_matrix = mat4_multiply(scale_matrix, world_matrix);
+        world_matrix = mat4_multiply(rotation_matrix_x, world_matrix);
+        world_matrix = mat4_multiply(rotation_matrix_y, world_matrix);
+        world_matrix = mat4_multiply(rotation_matrix_z, world_matrix);
+        world_matrix = mat4_multiply(translation_matrix, world_matrix);
+
 	//RE-Initalize triangles to render.
 	triangles_to_render = NULL;
         //From Mesh getting faces to then get vertices
@@ -220,17 +228,7 @@ void update(void) {
                 for (size_t j = 0; j < 3; j++) {
                         vect4_t vertex;
                         vertex = vec4_from_vec3(face_vertices[j]);
-                        vertex = mat4_mul_vec4(scale_matrix, vertex);
-
-                        //Rotating vertex
-                        vertex = mat4_mul_vec4(rotation_matrix_x, vertex);
-                        vertex = mat4_mul_vec4(rotation_matrix_y, vertex);
-                        vertex = mat4_mul_vec4(rotation_matrix_z, vertex);
-
-                        //translate the vertex away from camera.
-                        vertex = mat4_mul_vec4(translation_matrix, vertex);
-
-                        
+                        vertex = mat4_mul_vec4(world_matrix, vertex);
                         ////Going back tom Vect3////
                         transformed_vertex[j] = vec3_from_vec4(vertex);
                 }
