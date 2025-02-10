@@ -11,6 +11,7 @@ Playground/
 *.obj
 *.pptx
 *.exe
+*.old
 
 # User-specific files
 *.rsuser
