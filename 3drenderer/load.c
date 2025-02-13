@@ -68,13 +68,16 @@ int read_file(FILE *obj_file, vect3_t **in_vertices, face_t **in_faces){
                         faces.c = vertex_indices[2];
                         switch(color_set++){
                                 case 0:
-                                        faces.color = RED;
+                                        //faces.color = RED;
+                                        faces.color = WHITE;
                                         break;
                                 case 1:
-                                        faces.color = GREEN;
+                                        //faces.color = GREEN;
+                                        faces.color = WHITE;
                                         break;
                                 case 2:
-                                        faces.color = BLUE;
+                                        //faces.color = BLUE;
+                                        faces.color = WHITE;
                                         break;
                         }
 
