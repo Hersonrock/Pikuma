@@ -30,7 +30,8 @@ bool is_running = false;
 /// TRIANGLE , ROTATION &  PROJECTION
 triangle_t* triangles_to_render = NULL; 
 vect3_t camera_position = { .x = 0, .y = 0, .z = 0};
-float fov_factor = 320;
+mat4_t mat_proj;
+float fov;
 
 /// DISPLAY & BUFFER
 int32_t window_width = 0;
@@ -63,6 +64,15 @@ void setup(void) {
                 is_running = false;
 	}
 
+        //Projection variables
+        // If there is an error with M_PI just provide 1.0472
+        fov = M_PI/3.0f;  // 60 degrees
+        float aspect = (float)window_height / (float)window_width;
+        float znear = 0.1f;
+        float zfar = 100.0f;
+        mat_proj = mat4_make_perspective(aspect, fov, znear, zfar);
+
+        //Object loading
         if(load_obj(obj1, &obj_vertices, &obj_faces)){
                 is_running = false;
         }
@@ -83,10 +93,10 @@ void process_input(void) {
 			is_running = false;
 		}
 		if (event.key.keysym.sym == SDLK_KP_PLUS) {
-			fov_factor += 20;
+			fov += 1.0f;
 		}
 		if (event.key.keysym.sym == SDLK_KP_MINUS) {
-			fov_factor -= 20;
+			fov -= 1.0f;
 		}
 		if (event.key.keysym.sym == SDLK_RIGHT) {
 			mesh.rotation.y += 0.1f;
@@ -168,14 +178,6 @@ void process_input(void) {
 	}
 }
 
-vect2_t project_point(vect3_t *in_point) {
-        
-        vect2_t point;
-        point.x = (in_point->x * fov_factor) / (in_point->z);
-        point.y = (in_point->y * fov_factor) / (in_point->z);
-        return point;
-}
-
 void frame_time_control(void){
 	uint32_t time_to_wait = FRAME_TARGET_TIME -
                                   (SDL_GetTicks() - 
@@ -206,6 +208,7 @@ void update(void) {
         mat4_t rotation_matrix_z = mat4_make_rotation_z(mesh.rotation.z);
 
         mat4_t world_matrix = mat4_identity();
+
         //order matters scale> rotation> translation
         world_matrix = mat4_multiply(scale_matrix, world_matrix);
         world_matrix = mat4_multiply(rotation_matrix_x, world_matrix);
@@ -249,12 +252,17 @@ void update(void) {
 
                 //Preparing points for Triangle creation
                 //Perspective Projection and Translation TODO MATRIX
-                vect2_t projected_point[3];
+                vect4_t projected_point[3];
                 for (size_t j = 0; j < 3; j++) {
-                        vect3_t point = transformed_vertex[j];
-			projected_point[j] = project_point(&point);
-			projected_point[j].x += (window_width / 2);
-			projected_point[j].y += (window_height / 2);
+                        vect4_t point = vec4_from_vec3(transformed_vertex[j]);
+			projected_point[j] = mat4_mul_vec4_project(mat_proj,
+                                                                   point);
+                        //Scale into view
+			projected_point[j].x *= (window_width / 2.0f);
+			projected_point[j].y *= (window_height / 2.0f);
+                        //Translate
+			projected_point[j].x += (window_width / 2.0f);
+			projected_point[j].y += (window_height / 2.0f);
 		}
 
                 //Preparation for Painters algorithm
