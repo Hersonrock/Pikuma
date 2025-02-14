@@ -30,9 +30,6 @@ bool face_culling_mode = false;
 /// GAME LOOP
 bool is_running = false;
 
-//Light
-vect3_t light = { .x = 0, .y = 0, .z = 0};
-
 /// TRIANGLE , ROTATION &  PROJECTION
 triangle_t* triangles_to_render = NULL; 
 vect3_t camera_position = { .x = 0, .y = 0, .z = 0};
@@ -258,7 +255,8 @@ void update(void) {
                 }
 
                 //Preparing shading
-                float light_factor = get_light_factor(light,transformed_vertex);
+                float light_factor = get_light_factor(light.direction,
+                                                      transformed_vertex);
                 //Preparing points for Triangle creation
                 //Perspective Projection and Translation TODO MATRIX
                 vect4_t projected_point[3];

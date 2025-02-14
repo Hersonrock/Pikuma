@@ -1,6 +1,8 @@
 #include "light.h"
 
-
+light_t light = {
+        .direction = { 0, 0, 1}
+};
 
 uint32_t light_apply_intensity(uint32_t color, float factor){
                 uint32_t base_color = color;
@@ -14,7 +16,6 @@ uint32_t light_apply_intensity(uint32_t color, float factor){
                 b = (uint8_t)(b * factor);
 
                 uint32_t shaded_color = (a << 24) | (r << 16) | (g << 8) | b;
-                printf("shaded_color= %x\n", shaded_color); 
                 return shaded_color;
 }
 float get_light_factor(vect3_t light_vector, vect3_t *vertices){
@@ -27,8 +28,6 @@ float get_light_factor(vect3_t light_vector, vect3_t *vertices){
                 vect3_normalize(&light_ray);
 
                 float light_factor = vect3_dot(normal, light_ray);
-                printf("light_factor %.2f\n", light_factor);
-
                 return  light_factor;
 
 }
