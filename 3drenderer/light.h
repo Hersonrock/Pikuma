@@ -12,6 +12,6 @@ extern light_t light;
 
 
 uint32_t light_apply_intensity(uint32_t color, float factor);
-float get_light_factor(vect3_t light_vector, vect3_t *vertices);
+float get_light_factor(vect3_t light_vector, vect3_t normal);
 #endif  //LIGHT
 

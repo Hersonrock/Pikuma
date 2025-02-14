@@ -239,15 +239,18 @@ void update(void) {
                         transformed_vertex[j] = vec3_from_vec4(vertex);
                 }
 
+                vect3_t normal = triangle_normal(transformed_vertex[0],
+                                                 transformed_vertex[1],
+                                                 transformed_vertex[2]);
+                vect3_normalize(&normal);
+
                 //Face culling
                 if(face_culling_mode){
-                        vect3_t normal = triangle_normal(transformed_vertex[0],
-                                                         transformed_vertex[1],
-                                                         transformed_vertex[2]);
                         //Vector from camera to vertex
                         vect3_t camera_ray = vect3_sub(camera_position,
                                         transformed_vertex[0]);
 
+                        vect3_normalize(&camera_ray);
                         //Skip triangle creation 
                         //if face if facing away from camera
                         float alignment =  vect3_dot(normal, camera_ray);
@@ -255,8 +258,7 @@ void update(void) {
                 }
 
                 //Preparing shading
-                float light_factor = get_light_factor(light.direction,
-                                                      transformed_vertex);
+                float light_factor = get_light_factor(light.direction, normal);
                 //Preparing points for Triangle creation
                 //Perspective Projection and Translation TODO MATRIX
                 vect4_t projected_point[3];
