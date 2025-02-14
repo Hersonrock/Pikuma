@@ -5,6 +5,7 @@
 #include "load.h"
 #include "test.h"
 #include "matrix.h"
+#include "light.h"
 
 /// Object(.obj) files
 //const char *obj1 = "cube.obj";
@@ -241,9 +242,6 @@ void update(void) {
                         transformed_vertex[j] = vec3_from_vec4(vertex);
                 }
 
-
-                //Preparing color 
-                float color_factor;
                 //Face culling
                 if(face_culling_mode){
                         vect3_t normal = triangle_normal(transformed_vertex[0],
@@ -260,16 +258,7 @@ void update(void) {
                 }
 
                 //Preparing shading
-                vect3_t normal = triangle_normal(transformed_vertex[0],
-                                                 transformed_vertex[1],
-                                                 transformed_vertex[2]);
-                vect3_normalize(&normal);
-
-                vect3_t light_ray = vect3_sub(light, transformed_vertex[0]);
-                vect3_normalize(&light_ray);
-
-                float light_factor =  vect3_dot(normal, light_ray);
-
+                float light_factor = get_light_factor(light,transformed_vertex);
                 //Preparing points for Triangle creation
                 //Perspective Projection and Translation TODO MATRIX
                 vect4_t projected_point[3];
@@ -293,18 +282,8 @@ void update(void) {
                 //Preparing for rendering
 
                 //preparing for shading
-                uint32_t base_color = mesh_face.color;
-                uint8_t a = (base_color >> 24) & 0xFF;
-                uint8_t r = (base_color >> 16) & 0xFF;
-                uint8_t g = (base_color >> 8) & 0xFF;
-                uint8_t b = base_color & 0xFF;
-
-                r = (uint8_t)(r * light_factor);
-                g = (uint8_t)(g * light_factor);
-                b = (uint8_t)(b * light_factor);
-
-                uint32_t shaded_color = (a << 24) | (r << 16) | (g << 8) | b;
-
+                uint32_t shaded_color = light_apply_intensity(mesh_face.color,
+                                                     light_factor);
                 //Triangle is the object of interest of rendering
                 triangle_t projected_triangle = {
                         .points = {
@@ -312,7 +291,6 @@ void update(void) {
                                 {projected_point[1].x, projected_point[1].y},
                                 {projected_point[2].x, projected_point[2].y},
                         },
-                        //.color = mesh_face.color - 0x00777777 * (1 - light_factor),
                         .color = shaded_color,
                         .avg_depth = avg_depth
                 };
