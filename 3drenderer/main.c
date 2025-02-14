@@ -7,10 +7,12 @@
 #include "matrix.h"
 
 /// Object(.obj) files
-const char *obj1 = "cube.obj";
-const char *obj2 = "f22.obj";
-const char *obj3 = "WPveil.obj";
-const char *obj4 = "WPABinder.obj";
+//const char *obj1 = "cube.obj";
+//const char *obj1 = "f22.obj";
+//const char *obj1 = "WPveil.obj";
+const char *obj1 = "WPABinder.obj";
+//const char* obj1 = "AhriKDA.obj";
+//const char* obj1 = "Heart.obj";
 
 /// TIME
 #define FPS 120

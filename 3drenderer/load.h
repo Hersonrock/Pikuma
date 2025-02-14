@@ -8,7 +8,7 @@
 #include "vector.h"
 #include "display.h"
 #define MAX_LINE_SIZE 265
-#define FACTOR 5 
+#define FACTOR 10
 
 int load_obj(const char *obj_path, vect3_t **in_vertices, face_t **in_faces);
 FILE *open_file(const char *file_path,char *mode);
